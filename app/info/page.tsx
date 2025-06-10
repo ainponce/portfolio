@@ -1,0 +1,355 @@
+"use client"
+
+import { useRouter } from "next/navigation"
+import { useState, useEffect } from "react"
+import { SiTypescript, SiNextdotjs, SiTrpc, SiRedux, SiNodedotjs, SiExpress, SiPrisma, SiPostgresql, SiDocker } from 'react-icons/si'
+import { LuMail, LuLinkedin } from 'react-icons/lu'
+import { ArrowLeft } from "lucide-react"
+
+const info = {
+    about: {
+        title: "Sobre Mí",
+        description:
+            "Hola, soy Ain Moises Ponce, un desarrollador full-stack apasionado por crear soluciones web innovadoras y eficientes. Con experiencia en el desarrollo de aplicaciones modernas utilizando tecnologías como React, Node.js y bases de datos relacionales y no relacionales, entre otras tecnologías.",
+        experience: {
+            title: "Experiencia",
+            description:
+                "He trabajado en diversos proyectos, desde pequeñas aplicaciones hasta sistemas empresariales complejos. Mi enfoque se centra en escribir código limpio, mantenible y escalable.",
+        },
+        approach: {
+            title: "Enfoque",
+            description:
+                "Me especializo en el desarrollo de aplicaciones web modernas, con un fuerte énfasis en la experiencia del usuario y el rendimiento. Siempre estoy aprendiendo nuevas tecnologías y mejores prácticas para mejorar mis habilidades.",
+        },
+    },
+    contact: {
+        title: "Contacto",
+        description:
+            "¿Tenés un proyecto en mente? ¡Me encantaría escuchar sobre él! Puedes contactarme a través de cualquiera de los siguientes medios:",
+        location: {
+            title: "Ubicación",
+            description: "Actualmente basado en Buenos Aires, Argentina",
+        },
+        linkedin: {
+            title: "LinkedIn",
+            url: "https://www.linkedin.com/in/ainponce",
+        },
+        email: {
+            title: "Email",
+            address: "ponce.ain@gmail.com",
+        },
+    },
+    skills: {
+        frontend: {
+            title: "Frontend",
+            technologies: ["TypeScript", "Next", "tRPC", "Redux"],
+        },
+        backend: {
+            title: "Backend",
+            technologies: ["Node", "Express", "Prisma", "PostgreSQL", "tRPC"],
+        },
+        tools: {
+            title: "Herramientas y Otros",
+            technologies: ["Docker"],
+        },
+    },
+}
+
+const iconSize = 40;
+const techIcons: Record<string, React.ReactNode> = {
+    TypeScript: <SiTypescript size={iconSize} color="#232323" title="TypeScript" />,
+    Next: <SiNextdotjs size={iconSize} color="#232323" title="Next.js" />,
+    tRPC: <SiTrpc size={iconSize} color="#232323" title="tRPC" />,
+    Redux: <SiRedux size={iconSize} color="#232323" title="Redux" />,
+    Node: <SiNodedotjs size={iconSize} color="#232323" title="Node.js" />,
+    Express: <SiExpress size={iconSize} color="#232323" title="Express" />,
+    Prisma: <SiPrisma size={iconSize} color="#232323" title="Prisma" />,
+    PostgreSQL: <SiPostgresql size={iconSize} color="#232323" title="PostgreSQL" />,
+    Docker: <SiDocker size={iconSize} color="#232323" title="Docker" />,
+}
+
+export default function InfoPage() {
+    const router = useRouter()
+    const [isVisible, setIsVisible] = useState(false)
+    const [isExiting, setIsExiting] = useState(false)
+
+    useEffect(() => {
+        const timer = setTimeout(() => setIsVisible(true), 20)
+        return () => clearTimeout(timer)
+    }, [])
+
+    const handleBack = () => {
+        setIsExiting(true)
+        setTimeout(() => {
+            router.push("/")
+        }, 600)
+    }
+
+    return (
+        <div className={`info-page-container compact-layout ${isVisible ? "fade-in" : ""} ${isExiting ? "fade-exit" : ""}`}>
+            <button className="back-button" onClick={handleBack}> <ArrowLeft size={20} /> </button>
+            <div className="compact-grid">
+                <div className="about-block">
+                    <h1 className="section-title">{info.about.title}</h1>
+                    <p className="section-description">{info.about.description}</p>
+                    <div className="subsection">
+                        <h2>{info.about.experience.title}</h2>
+                        <p>{info.about.experience.description}</p>
+                    </div>
+                    <div className="subsection">
+                        <h2>{info.about.approach.title}</h2>
+                        <p>{info.about.approach.description}</p>
+                    </div>
+                </div>
+                <div className="right-column">
+                    <div className="skills-block">
+                        <h1 className="section-title">Skills</h1>
+                        <div className="skills-icons-row">
+                            {info.skills.frontend.technologies.map((tech, idx) => (
+                                <span className="tech-icon" key={tech + idx} title={tech}>{techIcons[tech]}</span>
+                            ))}
+                            {info.skills.backend.technologies.map((tech, idx) => (
+                                <span className="tech-icon" key={tech + idx} title={tech}>{techIcons[tech]}</span>
+                            ))}
+                            {info.skills.tools.technologies.map((tech, idx) => (
+                                <span className="tech-icon" key={tech + idx} title={tech}>{techIcons[tech]}</span>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="contact-block">
+                        <h1 className="section-title">{info.contact.title}</h1>
+                        <p className="section-description">{info.contact.description}</p>
+                        <div className="contact-icons-row">
+                            <a href={info.contact.linkedin.url} target="_blank" rel="noopener noreferrer" className="contact-icon-link">
+                                <LuLinkedin className="contact-icon" />
+                            </a>
+                            <a href={`mailto:${info.contact.email.address}`} className="contact-icon-link">
+                                <LuMail className="contact-icon" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style jsx>{`
+                .compact-layout {
+                    min-height: 100vh;
+                    background: #f7f7fa;
+                    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+                    color: #232323;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    position: relative;
+                    opacity: 0;
+                    transform: scale(0.98);
+                    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+                    padding: 1.2rem;
+                }
+
+                .fade-in {
+                    opacity: 1;
+                    transform: scale(1);
+                    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+
+                .fade-exit {
+                    opacity: 0;
+                    transform: scale(0.98);
+                    background: #181818;
+                    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+
+                .compact-grid {
+                    display: grid;
+                    grid-template-columns: 1.2fr 0.8fr;
+                    gap: 1rem;
+                    width: 100%;
+                    max-width: 1000px;
+                    height: auto;
+                }
+
+                .right-column {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+                }
+
+                .about-block, .skills-block, .contact-block {
+                    background: rgba(35,35,35,0.04);
+                    border-radius: 12px;
+                    padding: 1.2rem;
+                    min-width: 0;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+                    overflow: hidden;
+                    min-height: 200px;
+                }
+
+                .section-title {
+                    font-size: 1.1rem;
+                    font-weight: bold;
+                    margin-bottom: 0.6rem;
+                    text-align: center;
+                    color: #232323;
+                    width: 100%;
+                }
+
+                .section-description {
+                    font-size: 0.9rem;
+                    line-height: 1.4;
+                    margin-bottom: 0.8rem;
+                    text-align: center;
+                    color: #232323;
+                    width: 100%;
+                }
+
+                .subsection {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 0.8rem;
+                }
+
+                .subsection h2 {
+                    font-size: 1rem;
+                    margin-bottom: 0.4rem;
+                    color: #232323;
+                    text-align: center;
+                    width: 100%;
+                    font-weight: 700;
+                }
+
+                .subsection p {
+                    font-size: 0.9rem;
+                    line-height: 1.4;
+                    margin-bottom: 0.6rem;
+                    text-align: center;
+                    color: #232323;
+                    width: 100%;
+                }
+
+                .skills-icons-row {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.6rem;
+                    justify-content: center;
+                    align-items: center;
+                    margin-top: 0.6rem;
+                    padding: 0.6rem;
+                    width: 100%;
+                }
+
+                .tech-icon {
+                    background: rgba(35,35,35,0.08);
+                    border-radius: 8px;
+                    padding: 0.6rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    min-width: 60px;
+                    min-height: 60px;
+                }
+
+                .tech-icon:hover {
+                    background: rgba(35,35,35,0.15);
+                    transform: translateY(-2px);
+                }
+
+                .contact-icons-row {
+                    display: flex;
+                    gap: 1.2rem;
+                    align-items: center;
+                    justify-content: center;
+                    margin-top: 0.8rem;
+                    width: 100%;
+                }
+
+                .contact-icon-link {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0.6rem;
+                    background: rgba(35,35,35,0.08);
+                    border-radius: 50%;
+                    transition: all 0.3s ease;
+                    min-width: 50px;
+                    min-height: 50px;
+                }
+
+                .contact-icon-link:hover {
+                    background: rgba(35,35,35,0.15);
+                    transform: translateY(-2px);
+                }
+
+                .contact-icon {
+                    width: 24px;
+                    height: 24px;
+                    color: #232323;
+                }
+
+                .back-button {
+                    position: absolute;
+                    top: 1.2rem;
+                    left: 1.2rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.4rem;
+                    padding: 0.6rem 1rem;
+                    background: rgba(35, 35, 35, 0.08);
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(35, 35, 35, 0.12);
+                    border-radius: 50px;
+                    color: #232323;
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    z-index: 101;
+                }
+
+                .back-button:hover {
+                    background: rgba(35, 35, 35, 0.18);
+                    transform: translateY(-2px);
+                    box-shadow: 0 2px 8px rgba(35, 35, 35, 0.08);
+                }
+
+                @media (max-width: 1200px) {
+                    .compact-grid {
+                        grid-template-columns: 1fr;
+                        max-width: 800px;
+                        gap: 1rem;
+                    }
+                    .right-column {
+                        flex-direction: row;
+                    }
+                    .skills-block, .contact-block {
+                        flex: 1;
+                        min-height: 180px;
+                    }
+                }
+
+                @media (max-width: 768px) {
+                    .compact-grid {
+                        grid-template-columns: 1fr;
+                        max-width: 500px;
+                    }
+                    .right-column {
+                        flex-direction: column;
+                    }
+                    .about-block, .skills-block, .contact-block {
+                        min-height: 160px;
+                    }
+                }
+            `}</style>
+        </div>
+    )
+} 

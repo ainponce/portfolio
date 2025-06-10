@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
-import { SiTypescript, SiNextdotjs, SiTrpc, SiRedux, SiNodedotjs, SiExpress, SiPrisma, SiPostgresql, SiDocker } from 'react-icons/si'
+import { SiTypescript, SiNextdotjs, SiTrpc, SiRedux, SiNodedotjs, SiExpress, SiPrisma, SiPostgresql, SiDocker, SiX } from 'react-icons/si'
 import { LuMail, LuLinkedin } from 'react-icons/lu'
 import { ArrowLeft } from "lucide-react"
 
@@ -10,22 +10,22 @@ const info = {
     about: {
         title: "Sobre Mí",
         description:
-            "Hola, soy Ain Moises Ponce, un desarrollador full-stack apasionado por crear soluciones web innovadoras y eficientes. Con experiencia en el desarrollo de aplicaciones modernas utilizando tecnologías como React, Node.js y bases de datos relacionales y no relacionales, entre otras tecnologías.",
+            "¡Hola! Soy Ain, un software developer apasionado por transformar ideas en productos digitales reales. Disfruto diseñar y desarrollar experiencias web que sean dinámicas, intuitivas e interactivas, siempre priorizando tanto la funcionalidad como la estética.",
         experience: {
             title: "Experiencia",
             description:
-                "He trabajado en diversos proyectos, desde pequeñas aplicaciones hasta sistemas empresariales complejos. Mi enfoque se centra en escribir código limpio, mantenible y escalable.",
+                "Comencé mi camino en el mundo de los sistemas en 2015 y, desde 2022, me dedico de forma profesional al desarrollo de software. A lo largo de estos años, he trabajado en diversos entornos, adquiriendo experiencia práctica en proyectos reales y colaborando con equipos multidisciplinarios.",
         },
         approach: {
             title: "Enfoque",
             description:
-                "Me especializo en el desarrollo de aplicaciones web modernas, con un fuerte énfasis en la experiencia del usuario y el rendimiento. Siempre estoy aprendiendo nuevas tecnologías y mejores prácticas para mejorar mis habilidades.",
+                "Me especializo en la creación de aplicaciones web modernas, priorizando siempre la experiencia del usuario, la accesibilidad y el rendimiento. Tengo una mentalidad de mejora continua, por eso busco mantenerme en constante aprendizaje, explorando nuevas tecnologías, buenas prácticas y metodologías de desarrollo.",
         },
     },
     contact: {
         title: "Contacto",
         description:
-            "¿Tenés un proyecto en mente? ¡Me encantaría escuchar sobre él! Puedes contactarme a través de cualquiera de los siguientes medios:",
+            "¿Tenés un proyecto en mente? ¡Hablame! Contactame a través de cualquiera de los siguientes medios:",
         location: {
             title: "Ubicación",
             description: "Actualmente basado en Buenos Aires, Argentina",
@@ -38,6 +38,10 @@ const info = {
             title: "Email",
             address: "ponce.ain@gmail.com",
         },
+        x: {
+            title: "X",
+            url: "https://x.com/ainponce",
+        }
     },
     skills: {
         frontend: {
@@ -125,6 +129,9 @@ export default function InfoPage() {
                             </a>
                             <a href={`mailto:${info.contact.email.address}`} className="contact-icon-link">
                                 <LuMail className="contact-icon" />
+                            </a>
+                            <a href={info.contact.x.url} target="_blank" rel="noopener noreferrer" className="contact-icon-link">
+                                <SiX className="contact-icon" />
                             </a>
                         </div>
                     </div>

@@ -18,55 +18,6 @@ const gradients = [
   "linear-gradient(to bottom, #232323 0%, #2e3e5c 40%, #bfa76a 100%)",
 ]
 
-const info = {
-  about: {
-    title: "Sobre Mí",
-    description:
-      "Hola, soy Ain Moises Ponce, un desarrollador full-stack apasionado por crear soluciones web innovadoras y eficientes. Con experiencia en el desarrollo de aplicaciones modernas utilizando tecnologías como React, Node.js y bases de datos relacionales y no relacionales, entre otras tecnologías.",
-    experience: {
-      title: "Experiencia",
-      description:
-        "He trabajado en diversos proyectos, desde pequeñas aplicaciones hasta sistemas empresariales complejos. Mi enfoque se centra en escribir código limpio, mantenible y escalable.",
-    },
-    approach: {
-      title: "Enfoque",
-      description:
-        "Me especializo en el desarrollo de aplicaciones web modernas, con un fuerte énfasis en la experiencia del usuario y el rendimiento. Siempre estoy aprendiendo nuevas tecnologías y mejores prácticas para mejorar mis habilidades.",
-    },
-  },
-  contact: {
-    title: "Contacto",
-    description:
-      "¿Tenés un proyecto en mente? ¡Me encantaría escuchar sobre él! Puedes contactarme a través de cualquiera de los siguientes medios:",
-    location: {
-      title: "Ubicación",
-      description: "Actualmente basado en Buenos Aires, Argentina",
-    },
-    linkedin: {
-      title: "LinkedIn",
-      url: "https://www.linkedin.com/in/ainponce",
-    },
-    email: {
-      title: "Email",
-      address: "ponce.ain@gmail.com",
-    },
-  },
-  skills: {
-    frontend: {
-      title: "Frontend",
-      technologies: ["TypeScript", "Next", "tRPC", "Redux"],
-    },
-    backend: {
-      title: "Backend",
-      technologies: ["Node", "Express", "Prisma", "PostgreSQL", "tRPC"],
-    },
-    tools: {
-      title: "Herramientas y Otros",
-      technologies: ["Docker", "AWS"],
-    },
-  },
-}
-
 const sectionThreads = [
   { idx: 30, section: "about", className: "about-thread", color: "#ffe082" },
   { idx: 90, section: "main", className: "main-thread", color: "#ffffff" }, // Thread central
@@ -86,6 +37,7 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
     animationDelay: string;
   }>>([])
   const [isExiting, setIsExiting] = useState(false)
+  const [isZoomingToCenter, setIsZoomingToCenter] = useState(false)
   const wallRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -115,12 +67,15 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
   }, [])
 
   const handleThreadClick = (section: string) => {
-    if (isTransitioning) return
+    if (isTransitioning || isZoomingToCenter) return
     if (section === "main" && onCentralThreadClick) {
-      setIsExiting(true)
+      setIsZoomingToCenter(true)
       setTimeout(() => {
-        onCentralThreadClick()
-      }, 600) // Duración de la animación de salida
+        setIsExiting(true)
+        setTimeout(() => {
+          onCentralThreadClick()
+        }, 300)
+      }, 800) // Duración del zoom in
       return
     }
     setIsTransitioning(true)
@@ -148,160 +103,6 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
     return () => document.removeEventListener("keydown", handleEscape)
   }, [activeSection])
 
-  const renderContent = (section: string) => {
-    if (section === "about") {
-      return (
-        <div className="content-wrapper">
-          <h1 className="section-title">{info.about.title}</h1>
-          <p className="section-description">{info.about.description}</p>
-
-          <div className="subsection">
-            <h2>{info.about.experience.title}</h2>
-            <p>{info.about.experience.description}</p>
-          </div>
-
-          <div className="subsection">
-            <h2>{info.about.approach.title}</h2>
-            <p>{info.about.approach.description}</p>
-          </div>
-        </div>
-      )
-    }
-
-    if (section === "contact") {
-      return (
-        <div className="content-wrapper">
-          <h1 className="section-title">{info.contact.title}</h1>
-          <p className="section-description">{info.contact.description}</p>
-
-          <div className="contact-grid">
-            <div className="contact-item">
-              <MapPin className="contact-icon" />
-              <div>
-                <h3>{info.contact.location.title}</h3>
-                <p>{info.contact.location.description}</p>
-              </div>
-            </div>
-
-            <div className="contact-item">
-              <Linkedin className="contact-icon" />
-              <div>
-                <h3>{info.contact.linkedin.title}</h3>
-                <a href={info.contact.linkedin.url} target="_blank" rel="noopener noreferrer">
-                  {info.contact.linkedin.url}
-                </a>
-              </div>
-            </div>
-
-            <div className="contact-item">
-              <Mail className="contact-icon" />
-              <div>
-                <h3>{info.contact.email.title}</h3>
-                <a href={`mailto:${info.contact.email.address}`}>{info.contact.email.address}</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
-    }
-
-    if (section === "main") {
-      return (
-        <div className="content-wrapper main-content">
-          <div className="main-section">
-            <h1 className="section-title">{info.about.title}</h1>
-            <p className="section-description">{info.about.description}</p>
-
-            <div className="experience-approach-grid">
-              <div className="subsection">
-                <h2>{info.about.experience.title}</h2>
-                <p>{info.about.experience.description}</p>
-              </div>
-
-              <div className="subsection">
-                <h2>{info.about.approach.title}</h2>
-                <p>{info.about.approach.description}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="main-section">
-            <h1 className="section-title">Skills</h1>
-            <div className="skills-grid">
-              <div className="skill-category">
-                <h2>{info.skills.frontend.title}</h2>
-                <ul>
-                  {info.skills.frontend.technologies.map((tech, idx) => (
-                    <li key={idx}>{tech}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="skill-category">
-                <h2>{info.skills.backend.title}</h2>
-                <ul>
-                  {info.skills.backend.technologies.map((tech, idx) => (
-                    <li key={idx}>{tech}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="skill-category">
-                <h2>{info.skills.tools.title}</h2>
-                <ul>
-                  {info.skills.tools.technologies.map((tech, idx) => (
-                    <li key={idx}>{tech}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div className="main-section">
-            <h1 className="section-title">{info.contact.title}</h1>
-            <p className="section-description">{info.contact.description}</p>
-
-            <div className="contact-grid">
-              <div className="contact-item">
-                <MapPin className="contact-icon" />
-                <div>
-                  <h3>{info.contact.location.title}</h3>
-                  <p>{info.contact.location.description}</p>
-                </div>
-              </div>
-
-              <div className="contact-item">
-                <Linkedin className="contact-icon" />
-                <div>
-                  <h3>{info.contact.linkedin.title}</h3>
-                  <a href={info.contact.linkedin.url} target="_blank" rel="noopener noreferrer">
-                    {info.contact.linkedin.url}
-                  </a>
-                </div>
-              </div>
-
-              <div className="contact-item">
-                <Mail className="contact-icon" />
-                <div>
-                  <h3>{info.contact.email.title}</h3>
-                  <a href={`mailto:${info.contact.email.address}`}>{info.contact.email.address}</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
-    }
-
-    // Fallback para cualquier sección no reconocida
-    return (
-      <div className="content-wrapper">
-        <h1 className="section-title">Sección no encontrada</h1>
-        <p className="section-description">La sección solicitada no existe.</p>
-      </div>
-    )
-  }
-
   return (
     <div className={`portfolio-container ${activeSection ? `active-${activeSection}` : ""} ${isExiting ? "fade-exit" : ""}`}>
       {/* Blackout overlay */}
@@ -309,25 +110,26 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
 
       {/* Header */}
       {isContentReady && !isExiting && (
-        <div className={`header-text ${activeSection ? "hidden" : ""} ${isHeaderVisible ? "visible" : ""}`}>
+        <div className={`header-text ${activeSection || isZoomingToCenter ? "hidden" : ""} ${isHeaderVisible ? "visible" : ""}`}>
           Ain Moises Ponce
-          <br />
           <span>Software Developer</span>
+          <span className="instruction-text">Interactúa con los hilos y explora</span>
         </div>
       )}
 
       {/* Wall of threads */}
       {!isExiting && (
-        <div className={`wall ${activeSection ? "wall-hidden" : ""}`} ref={wallRef}>
+        <div className={`wall ${activeSection ? "wall-hidden" : ""} ${isZoomingToCenter ? "zooming-to-center" : ""}`} ref={wallRef}>
           {Array.from({ length: 180 }, (_, i) => {
             const sectionThread = sectionThreads.find((st) => st.idx === i)
             const isSpecialThread = !!sectionThread
+            const isCentralThread = sectionThread?.section === "main"
             const style = threadStyles[i] || {}
 
             return (
               <div
                 key={i}
-                className={`thread ${isSpecialThread ? `section-thread ${sectionThread.className}` : ""}`}
+                className={`thread ${isSpecialThread ? `section-thread ${sectionThread.className}` : ""} ${isCentralThread && isZoomingToCenter ? "central-thread-zoom" : ""}`}
                 style={style}
                 onClick={() => isSpecialThread && handleThreadClick(sectionThread.section)}
               />
@@ -344,7 +146,9 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
             Volver
           </button>
 
-          <div className="content-container">{renderContent(activeSection)}</div>
+          <div className="content-container">
+            {/* Render content based on activeSection */}
+          </div>
         </div>
       )}
 
@@ -406,6 +210,43 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
         .wall.wall-hidden {
           opacity: 0;
           transform: scale(1.1);
+        }
+        
+        .wall.zooming-to-center {
+          transform-origin: center center;
+          animation: zoomToCenter 1.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+        }
+        
+        .central-thread-zoom {
+          transform-origin: center center;
+          animation: centralThreadZoom 1.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+          z-index: 100 !important;
+        }
+        
+        @keyframes zoomToCenter {
+          0% {
+            transform: scale(1);
+          }
+          100% {
+            transform: scale(3);
+            opacity: 0.3;
+          }
+        }
+        
+        @keyframes centralThreadZoom {
+          0% {
+            transform: scaleY(1) scaleX(1);
+            box-shadow: 0 0 40px 12px #ffffff60;
+          }
+          50% {
+            transform: scaleY(1.5) scaleX(2);
+            box-shadow: 0 0 80px 25px #ffffff80;
+          }
+          100% {
+            transform: scaleY(30) scaleX(50);
+            box-shadow: 0 0 200px 50px #ffffff;
+            opacity: 1;
+          }
         }
         
         .thread {
@@ -529,6 +370,17 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
           letter-spacing: 2px;
           margin-top: 0.3em;
           text-shadow: 0 2px 12px #000, 0 0 2px #bfa76a;
+        }
+        
+        .instruction-text {
+          font-size: 0.9rem !important;
+          font-weight: 400 !important;
+          color: #fffbe6 !important;
+          letter-spacing: 1px !important;
+          margin-top: 0.4em !important;
+          opacity: 0.8;
+          font-style: italic;
+          text-shadow: 0 1px 8px #000 !important;
         }
         
         .content-overlay {
@@ -736,6 +588,10 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
             font-size: 1.8rem;
             top: 20px;
             left: 20px;
+          }
+          
+          .instruction-text {
+            font-size: 0.8rem !important;
           }
           
           .content-container {

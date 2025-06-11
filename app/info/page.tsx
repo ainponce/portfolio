@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
-import { SiTypescript, SiNextdotjs, SiTrpc, SiRedux, SiNodedotjs, SiExpress, SiPrisma, SiPostgresql, SiDocker, SiX } from 'react-icons/si'
+import { SiTypescript, SiNextdotjs, SiTrpc, SiRedux, SiNodedotjs, SiExpress, SiPrisma, SiPostgresql, SiDocker, SiX, SiTailwindcss } from 'react-icons/si'
 import { LuMail, LuLinkedin } from 'react-icons/lu'
 import { ArrowLeft } from "lucide-react"
 
@@ -46,11 +46,11 @@ const info = {
     skills: {
         frontend: {
             title: "Frontend",
-            technologies: ["TypeScript", "Next", "tRPC", "Redux"],
+            technologies: ["TypeScript", "Next", "tRPC", "Redux", "Tailwind"],
         },
         backend: {
             title: "Backend",
-            technologies: ["Node", "Express", "Prisma", "PostgreSQL", "tRPC"],
+            technologies: ["Node", "Express", "Prisma", "PostgreSQL"],
         },
         tools: {
             title: "Herramientas y Otros",
@@ -65,6 +65,7 @@ const techIcons: Record<string, React.ReactNode> = {
     Next: <SiNextdotjs size={iconSize} color="#232323" title="Next.js" />,
     tRPC: <SiTrpc size={iconSize} color="#232323" title="tRPC" />,
     Redux: <SiRedux size={iconSize} color="#232323" title="Redux" />,
+    Tailwind: <SiTailwindcss size={iconSize} color="#232323" title="Tailwind CSS" />,
     Node: <SiNodedotjs size={iconSize} color="#232323" title="Node.js" />,
     Express: <SiExpress size={iconSize} color="#232323" title="Express" />,
     Prisma: <SiPrisma size={iconSize} color="#232323" title="Prisma" />,
@@ -93,16 +94,18 @@ export default function InfoPage() {
         <div className={`info-page-container compact-layout ${isVisible ? "fade-in" : ""} ${isExiting ? "fade-exit" : ""}`}>
             <button className="back-button" onClick={handleBack}> <ArrowLeft size={20} /> </button>
             <div className="compact-grid">
-                <div className="about-block">
-                    <h1 className="section-title">{info.about.title}</h1>
-                    <p className="section-description">{info.about.description}</p>
-                    <div className="subsection">
-                        <h2>{info.about.experience.title}</h2>
-                        <p>{info.about.experience.description}</p>
+                <div className="left-column">
+                    <div className="about-block">
+                        <h1 className="section-title">{info.about.title}</h1>
+                        <p className="section-description">{info.about.description}</p>
                     </div>
-                    <div className="subsection">
-                        <h2>{info.about.approach.title}</h2>
-                        <p>{info.about.approach.description}</p>
+                    <div className="experience-block">
+                        <h1 className="section-title">{info.about.experience.title}</h1>
+                        <p className="section-description">{info.about.experience.description}</p>
+                    </div>
+                    <div className="approach-block">
+                        <h1 className="section-title">{info.about.approach.title}</h1>
+                        <p className="section-description">{info.about.approach.description}</p>
                     </div>
                 </div>
                 <div className="right-column">
@@ -110,13 +113,19 @@ export default function InfoPage() {
                         <h1 className="section-title">Skills</h1>
                         <div className="skills-icons-row">
                             {info.skills.frontend.technologies.map((tech, idx) => (
-                                <span className="tech-icon" key={tech + idx} title={tech}>{techIcons[tech]}</span>
+                                <div className="tech-icon" key={`frontend-${tech}-${idx}`} title={tech} data-tooltip={tech}>
+                                    {techIcons[tech]}
+                                </div>
                             ))}
                             {info.skills.backend.technologies.map((tech, idx) => (
-                                <span className="tech-icon" key={tech + idx} title={tech}>{techIcons[tech]}</span>
+                                <div className="tech-icon" key={`backend-${tech}-${idx}`} title={tech} data-tooltip={tech}>
+                                    {techIcons[tech]}
+                                </div>
                             ))}
                             {info.skills.tools.technologies.map((tech, idx) => (
-                                <span className="tech-icon" key={tech + idx} title={tech}>{techIcons[tech]}</span>
+                                <div className="tech-icon" key={`tools-${tech}-${idx}`} title={tech} data-tooltip={tech}>
+                                    {techIcons[tech]}
+                                </div>
                             ))}
                         </div>
                     </div>
@@ -169,20 +178,34 @@ export default function InfoPage() {
 
                 .compact-grid {
                     display: grid;
-                    grid-template-columns: 1.2fr 0.8fr;
+                    grid-template-columns: 1fr 0.8fr;
                     gap: 1rem;
                     width: 100%;
-                    max-width: 1000px;
+                    max-width: 1200px;
                     height: auto;
+                }
+                
+                .left-column {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+                    height: 100%;
                 }
 
                 .right-column {
                     display: flex;
                     flex-direction: column;
                     gap: 1rem;
+                    height: 100%;
+                }
+                
+                .right-column .skills-block,
+                .right-column .contact-block {
+                    flex: 1;
+                    min-height: 250px;
                 }
 
-                .about-block, .skills-block, .contact-block {
+                .about-block, .experience-block, .approach-block, .skills-block, .contact-block {
                     background: rgba(35,35,35,0.04);
                     border-radius: 12px;
                     padding: 1.2rem;
@@ -193,7 +216,7 @@ export default function InfoPage() {
                     justify-content: center;
                     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
                     overflow: hidden;
-                    min-height: 200px;
+                    min-height: 160px;
                 }
 
                 .section-title {
@@ -263,11 +286,34 @@ export default function InfoPage() {
                     transition: all 0.3s ease;
                     min-width: 60px;
                     min-height: 60px;
+                    position: relative;
                 }
 
                 .tech-icon:hover {
                     background: rgba(35,35,35,0.15);
                     transform: translateY(-2px);
+                }
+
+                .tech-icon::after {
+                    content: attr(data-tooltip);
+                    position: absolute;
+                    bottom: -30px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: rgba(35, 35, 35, 0.9);
+                    color: white;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    font-size: 0.7rem;
+                    white-space: nowrap;
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: opacity 0.3s ease;
+                    z-index: 1000;
+                }
+
+                .tech-icon:hover::after {
+                    opacity: 1;
                 }
 
                 .contact-icons-row {
@@ -335,25 +381,61 @@ export default function InfoPage() {
                         max-width: 800px;
                         gap: 1rem;
                     }
+                    .left-column {
+                        order: 1;
+                    }
                     .right-column {
                         flex-direction: row;
+                        order: 2;
                     }
-                    .skills-block, .contact-block {
-                        flex: 1;
-                        min-height: 180px;
+                                         .right-column .skills-block,
+                     .right-column .contact-block {
+                         flex: 1;
+                         min-height: 200px;
+                     }
+                    .about-block, .experience-block, .approach-block {
+                        min-height: 140px;
                     }
                 }
 
                 @media (max-width: 768px) {
+                    .compact-layout {
+                        padding: 5rem 1.2rem 1.2rem 1.2rem;
+                    }
                     .compact-grid {
                         grid-template-columns: 1fr;
                         max-width: 500px;
                     }
-                    .right-column {
-                        flex-direction: column;
+                                         .right-column {
+                         flex-direction: column;
+                         height: auto;
+                     }
+                     .right-column .skills-block,
+                     .right-column .contact-block {
+                         flex: none;
+                         min-height: 140px;
+                     }
+                    .about-block, .experience-block, .approach-block, .skills-block, .contact-block {
+                        min-height: 140px;
                     }
-                    .about-block, .skills-block, .contact-block {
-                        min-height: 160px;
+                    .skills-block {
+                        overflow: visible;
+                        padding: 1.2rem 1.2rem 2.5rem 1.2rem;
+                        margin-bottom: 1.5rem;
+                    }
+                    .tech-icon {
+                        min-width: 50px;
+                        min-height: 50px;
+                    }
+                    .tech-icon::after {
+                        font-size: 0.6rem;
+                        bottom: -25px;
+                    }
+                    .back-button {
+                        top: 1rem;
+                        left: 1rem;
+                        position: fixed;
+                        z-index: 102;
                     }
                 }
             `}</style>

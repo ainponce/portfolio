@@ -38,15 +38,32 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
   }>>([])
   const [isExiting, setIsExiting] = useState(false)
   const [isZoomingToCenter, setIsZoomingToCenter] = useState(false)
+  const [shouldBlinkMainThread, setShouldBlinkMainThread] = useState(false)
+  const [isMainThreadHovered, setIsMainThreadHovered] = useState(false)
   const wallRef = useRef<HTMLDivElement>(null)
+  const blinkTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowBlackout(false)
       setIsHeaderVisible(true)
       setIsContentReady(true)
+
+      // Iniciar el temporizador para el parpadeo después de que todo esté listo
+      blinkTimeoutRef.current = setTimeout(() => {
+        setShouldBlinkMainThread(true)
+      }, 3000)
     }, 500)
     return () => clearTimeout(timer)
+  }, [])
+
+  // Limpiar timeout al desmontar componente
+  useEffect(() => {
+    return () => {
+      if (blinkTimeoutRef.current) {
+        clearTimeout(blinkTimeoutRef.current)
+      }
+    }
   }, [])
 
   useEffect(() => {
@@ -68,6 +85,14 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
 
   const handleThreadClick = (section: string) => {
     if (isTransitioning || isZoomingToCenter) return
+
+    // Resetear el parpadeo y hover si se hace click en cualquier hilo
+    setShouldBlinkMainThread(false)
+    setIsMainThreadHovered(false)
+    if (blinkTimeoutRef.current) {
+      clearTimeout(blinkTimeoutRef.current)
+    }
+
     if (section === "main" && onCentralThreadClick) {
       setIsZoomingToCenter(true)
       setTimeout(() => {
@@ -80,6 +105,23 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
     }
     setIsTransitioning(true)
     setActiveSection(section)
+  }
+
+  const handleThreadHover = () => {
+    // Activar estado de hover y detener parpadeo
+    setIsMainThreadHovered(true)
+    setShouldBlinkMainThread(false)
+    if (blinkTimeoutRef.current) {
+      clearTimeout(blinkTimeoutRef.current)
+    }
+  }
+
+  const handleThreadLeave = () => {
+    // Desactivar estado de hover y reiniciar temporizador
+    setIsMainThreadHovered(false)
+    blinkTimeoutRef.current = setTimeout(() => {
+      setShouldBlinkMainThread(true)
+    }, 3000)
   }
 
   const handleBack = () => {
@@ -129,9 +171,11 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
             return (
               <div
                 key={i}
-                className={`thread ${isSpecialThread ? `section-thread ${sectionThread.className}` : ""} ${isCentralThread && isZoomingToCenter ? "central-thread-zoom" : ""}`}
+                className={`thread ${isSpecialThread ? `section-thread ${sectionThread.className}` : ""} ${isCentralThread && isZoomingToCenter ? "central-thread-zoom" : ""} ${isCentralThread && shouldBlinkMainThread ? "blinking-thread" : ""} ${isCentralThread && isMainThreadHovered ? "hovered-thread" : ""}`}
                 style={style}
                 onClick={() => isSpecialThread && handleThreadClick(sectionThread.section)}
+                onMouseEnter={() => isCentralThread && handleThreadHover()}
+                onMouseLeave={() => isCentralThread && handleThreadLeave()}
               />
             )
           })}
@@ -625,6 +669,30 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
           opacity: 1;
           transform: scale(1);
           transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .blinking-thread {
+          animation: white-flash-blink 1.5s infinite ease-in-out !important;
+        }
+
+        .hovered-thread {
+          box-shadow: 0 0 50px 15px #ffffff80, 0 0 30px 8px #ffffff40 !important;
+          transform: scaleY(1.05) scaleX(1.1) !important;
+          filter: brightness(1.3) saturate(1.1) !important;
+          animation: none !important;
+        }
+        
+        @keyframes white-flash-blink {
+          0%, 100% { 
+            box-shadow: 0 0 40px 12px #ffffff60;
+            transform: scaleY(1) scaleX(1);
+            filter: brightness(1);
+          }
+          50% { 
+            box-shadow: 0 0 50px 15px #ffffff80, 0 0 30px 8px #ffffff40;
+            transform: scaleY(1.05) scaleX(1.1);
+            filter: brightness(1.3) saturate(1.1);
+          }
         }
       `}</style>
     </div>

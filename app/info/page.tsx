@@ -77,11 +77,22 @@ export default function InfoPage() {
     const router = useRouter()
     const [isVisible, setIsVisible] = useState(false)
     const [isExiting, setIsExiting] = useState(false)
+    const [activeTooltip, setActiveTooltip] = useState<string | null>(null)
 
     useEffect(() => {
         const timer = setTimeout(() => setIsVisible(true), 20)
         return () => clearTimeout(timer)
     }, [])
+
+    const handleIconTouch = (tech: string) => {
+        if (activeTooltip === tech) {
+            setActiveTooltip(null)
+        } else {
+            setActiveTooltip(tech)
+            // Auto-hide tooltip after 2 seconds
+            setTimeout(() => setActiveTooltip(null), 2000)
+        }
+    }
 
     const handleBack = () => {
         setIsExiting(true)
@@ -113,17 +124,38 @@ export default function InfoPage() {
                         <h1 className="section-title">Skills</h1>
                         <div className="skills-icons-row">
                             {info.skills.frontend.technologies.map((tech, idx) => (
-                                <div className="tech-icon" key={`frontend-${tech}-${idx}`} title={tech} data-tooltip={tech}>
+                                <div
+                                    className={`tech-icon ${activeTooltip === tech ? 'active-tooltip' : ''}`}
+                                    key={`frontend-${tech}-${idx}`}
+                                    title={tech}
+                                    data-tooltip={tech}
+                                    onClick={() => handleIconTouch(tech)}
+                                    onTouchStart={() => handleIconTouch(tech)}
+                                >
                                     {techIcons[tech]}
                                 </div>
                             ))}
                             {info.skills.backend.technologies.map((tech, idx) => (
-                                <div className="tech-icon" key={`backend-${tech}-${idx}`} title={tech} data-tooltip={tech}>
+                                <div
+                                    className={`tech-icon ${activeTooltip === tech ? 'active-tooltip' : ''}`}
+                                    key={`backend-${tech}-${idx}`}
+                                    title={tech}
+                                    data-tooltip={tech}
+                                    onClick={() => handleIconTouch(tech)}
+                                    onTouchStart={() => handleIconTouch(tech)}
+                                >
                                     {techIcons[tech]}
                                 </div>
                             ))}
                             {info.skills.tools.technologies.map((tech, idx) => (
-                                <div className="tech-icon" key={`tools-${tech}-${idx}`} title={tech} data-tooltip={tech}>
+                                <div
+                                    className={`tech-icon ${activeTooltip === tech ? 'active-tooltip' : ''}`}
+                                    key={`tools-${tech}-${idx}`}
+                                    title={tech}
+                                    data-tooltip={tech}
+                                    onClick={() => handleIconTouch(tech)}
+                                    onTouchStart={() => handleIconTouch(tech)}
+                                >
                                     {techIcons[tech]}
                                 </div>
                             ))}
@@ -297,22 +329,51 @@ export default function InfoPage() {
                 .tech-icon::after {
                     content: attr(data-tooltip);
                     position: absolute;
-                    bottom: -30px;
+                    top: -35px;
                     left: 50%;
                     transform: translateX(-50%);
                     background: rgba(35, 35, 35, 0.9);
                     color: white;
-                    padding: 4px 8px;
-                    border-radius: 4px;
-                    font-size: 0.7rem;
+                    padding: 6px 10px;
+                    border-radius: 6px;
+                    font-size: 0.75rem;
                     white-space: nowrap;
                     opacity: 0;
                     pointer-events: none;
                     transition: opacity 0.3s ease;
-                    z-index: 1000;
+                    z-index: 10000;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
                 }
 
                 .tech-icon:hover::after {
+                    opacity: 1;
+                }
+
+                /* Flecha del tooltip */
+                .tech-icon::before {
+                    content: '';
+                    position: absolute;
+                    top: -8px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    border: 5px solid transparent;
+                    border-top-color: rgba(35, 35, 35, 0.9);
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: opacity 0.3s ease;
+                    z-index: 10000;
+                }
+
+                .tech-icon:hover::before {
+                    opacity: 1;
+                }
+
+                /* Tooltip activo en mobile */
+                .tech-icon.active-tooltip::after {
+                    opacity: 1;
+                }
+
+                .tech-icon.active-tooltip::before {
                     opacity: 1;
                 }
 
@@ -420,16 +481,21 @@ export default function InfoPage() {
                     }
                     .skills-block {
                         overflow: visible;
-                        padding: 1.2rem 1.2rem 2.5rem 1.2rem;
+                        padding: 2.5rem 1.2rem 1.2rem 1.2rem;
                         margin-bottom: 1.5rem;
                     }
                     .tech-icon {
                         min-width: 50px;
                         min-height: 50px;
+                        position: relative;
                     }
                     .tech-icon::after {
-                        font-size: 0.6rem;
-                        bottom: -25px;
+                        font-size: 0.7rem;
+                        top: -40px;
+                        padding: 8px 12px;
+                    }
+                    .tech-icon::before {
+                        top: -10px;
                     }
                     .back-button {
                         top: 1rem;

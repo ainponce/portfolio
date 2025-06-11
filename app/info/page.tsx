@@ -5,6 +5,7 @@ import { useState, useEffect } from "react"
 import { SiTypescript, SiNextdotjs, SiTrpc, SiRedux, SiNodedotjs, SiExpress, SiPrisma, SiPostgresql, SiDocker, SiX, SiTailwindcss } from 'react-icons/si'
 import { LuMail, LuLinkedin } from 'react-icons/lu'
 import { ArrowLeft } from "lucide-react"
+import Image from "next/image"
 
 const info = {
     about: {
@@ -78,6 +79,7 @@ export default function InfoPage() {
     const [isVisible, setIsVisible] = useState(false)
     const [isExiting, setIsExiting] = useState(false)
     const [activeTooltip, setActiveTooltip] = useState<string | null>(null)
+    const [isZoomingToLogo, setIsZoomingToLogo] = useState(false)
 
     useEffect(() => {
         const timer = setTimeout(() => setIsVisible(true), 20)
@@ -94,6 +96,13 @@ export default function InfoPage() {
         }
     }
 
+    const handleLogoClick = () => {
+        setIsZoomingToLogo(true)
+        setTimeout(() => {
+            router.push("/easter-egg")
+        }, 1500)
+    }
+
     const handleBack = () => {
         setIsExiting(true)
         setTimeout(() => {
@@ -102,8 +111,20 @@ export default function InfoPage() {
     }
 
     return (
-        <div className={`info-page-container compact-layout ${isVisible ? "fade-in" : ""} ${isExiting ? "fade-exit" : ""}`}>
+        <div className={`info-page-container compact-layout ${isVisible ? "fade-in" : ""} ${isExiting ? "fade-exit" : ""} ${isZoomingToLogo ? "zooming-to-logo" : ""}`}>
             <button className="back-button" onClick={handleBack}> <ArrowLeft size={20} /> </button>
+
+            <div className="logo-container">
+                <Image
+                    src="/black-hole.svg"
+                    alt="Black Hole Logo"
+                    width={60}
+                    height={60}
+                    className="logo"
+                    onClick={handleLogoClick}
+                />
+            </div>
+
             <div className="compact-grid">
                 <div className="left-column">
                     <div className="about-block">
@@ -195,6 +216,29 @@ export default function InfoPage() {
                     padding: 1.2rem;
                 }
 
+                .logo-container {
+                    position: absolute;
+                    top: 2rem;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 100;
+                }
+
+                .logo {
+                    filter: brightness(0) saturate(100%);
+                    opacity: 0.8;
+                    transition: all 0.3s ease;
+                    cursor: pointer;
+                }
+
+                .logo:hover {
+                    opacity: 1;
+                    transform: scale(1.05);
+                }
+
                 .fade-in {
                     opacity: 1;
                     transform: scale(1);
@@ -206,6 +250,23 @@ export default function InfoPage() {
                     transform: scale(0.98);
                     background: #181818;
                     transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+
+                .zooming-to-logo {
+                    background: #000000;
+                    transition: background 1.5s ease;
+                }
+
+                .zooming-to-logo .logo {
+                    transform: scale(50);
+                    transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+                    z-index: 10000;
+                }
+
+                .zooming-to-logo .compact-grid,
+                .zooming-to-logo .back-button {
+                    opacity: 0;
+                    transition: opacity 0.8s ease;
                 }
 
                 .compact-grid {
@@ -463,9 +524,15 @@ export default function InfoPage() {
                     .compact-layout {
                         padding: 5rem 1.2rem 1.2rem 1.2rem;
                     }
+                    
+                    .logo-container {
+                        top: 1rem;
+                    }
+                    
                     .compact-grid {
                         grid-template-columns: 1fr;
                         max-width: 500px;
+                        margin-top: 2rem;
                     }
                                          .right-column {
                          flex-direction: column;

@@ -8,8 +8,20 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ainponce.com'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'Ain Moises Ponce | Portfolio',
+  title: 'Ain Moises Ponce | Full Stack Developer Portfolio | React, Next.js, TypeScript',
   description: 'Portfolio de Ain Moises Ponce - Desarrollador Full Stack especializado en React, Next.js, TypeScript y tecnologías web modernas.',
+  keywords: [
+    'Ain Moises Ponce',
+    'Full Stack Developer',
+    'React Developer',
+    'Next.js Developer',
+    'TypeScript Developer',
+    'Web Developer Portfolio',
+    'Frontend Developer',
+    'Backend Developer',
+    'Software Engineer',
+    'Buenos Aires Developer'
+  ],
   icons: {
     icon: '/favicon-96x96.png',
   },
@@ -29,7 +41,7 @@ export const metadata: Metadata = {
     locale: 'es_ES',
     url: siteUrl,
     siteName: 'Ain Moises Ponce Portfolio',
-    title: 'Ain Moises Ponce | Portfolio',
+    title: 'Ain Moises Ponce | Full Stack Developer Portfolio | React, Next.js, TypeScript',
     description: 'Portfolio de Ain Moises Ponce - Desarrollador Full Stack especializado en React, Next.js, TypeScript y tecnologías web modernas.',
     images: [
       {
@@ -42,7 +54,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ain Moises Ponce | Portfolio',
+    title: 'Ain Moises Ponce | Full Stack Developer Portfolio | React, Next.js, TypeScript',
     description: 'Portfolio de Ain Moises Ponce - Desarrollador Full Stack especializado en React, Next.js, TypeScript y tecnologías web modernas.',
     images: ['/placeholder.jpg'],
   },

@@ -5,73 +5,101 @@ import { useState, useEffect } from "react"
 import { SiTypescript, SiNextdotjs, SiTrpc, SiRedux, SiNodedotjs, SiExpress, SiPrisma, SiPostgresql, SiDocker, SiX, SiTailwindcss } from 'react-icons/si'
 import { LuMail, LuLinkedin } from 'react-icons/lu'
 import { ArrowLeft } from "lucide-react"
-import Image from "next/image"
 
-const info = {
-    about: {
-        title: "Sobre Mí",
-        description:
-            "¡Hola! Soy Ain, un software developer apasionado por transformar ideas en productos digitales reales. Disfruto diseñar y desarrollar experiencias web que sean dinámicas, intuitivas e interactivas, siempre priorizando tanto la funcionalidad como la estética.",
-        experience: {
-            title: "Experiencia",
+type Language = 'ES' | 'EN'
+
+const translations = {
+    ES: {
+        about: {
+            title: "Sobre Mí",
             description:
-                "Comencé mi camino en el mundo de los sistemas en 2015 y, desde 2022, me dedico de forma profesional al desarrollo de software. A lo largo de estos años, he trabajado en diversos entornos, adquiriendo experiencia práctica en proyectos reales y colaborando con equipos multidisciplinarios.",
+                "¡Hola! Soy Ain, un software developer apasionado por transformar ideas en productos digitales reales. Disfruto diseñar y desarrollar experiencias web que sean dinámicas, intuitivas e interactivas, siempre priorizando tanto la funcionalidad como la estética.",
+            experience: {
+                title: "Experiencia",
+                description:
+                    "Comencé mi camino en el mundo de los sistemas en 2015 y, desde 2022, me dedico de forma profesional al desarrollo de software. A lo largo de estos años, he trabajado en diversos entornos, adquiriendo experiencia práctica en proyectos reales y colaborando con equipos multidisciplinarios.",
+            },
+            approach: {
+                title: "Enfoque",
+                description:
+                    "Me especializo en la creación de aplicaciones web modernas, priorizando siempre la experiencia del usuario, la accesibilidad y el rendimiento. Tengo una mentalidad de mejora continua, por eso busco mantenerme en constante aprendizaje, explorando nuevas tecnologías, buenas prácticas y metodologías de desarrollo.",
+            },
         },
-        approach: {
-            title: "Enfoque",
+        contact: {
+            title: "Contacto",
             description:
-                "Me especializo en la creación de aplicaciones web modernas, priorizando siempre la experiencia del usuario, la accesibilidad y el rendimiento. Tengo una mentalidad de mejora continua, por eso busco mantenerme en constante aprendizaje, explorando nuevas tecnologías, buenas prácticas y metodologías de desarrollo.",
+                "¿Tenés un proyecto en mente? ¡Hablame! Contactame a través de cualquiera de los siguientes medios:",
+        },
+        skills: {
+            title: "Habilidades",
         },
     },
-    contact: {
-        title: "Contacto",
-        description:
-            "¿Tenés un proyecto en mente? ¡Hablame! Contactame a través de cualquiera de los siguientes medios:",
-        location: {
-            title: "Ubicación",
-            description: "Actualmente basado en Buenos Aires, Argentina",
+    EN: {
+        about: {
+            title: "About Me",
+            description:
+                "Hi! I'm Ain, a software developer passionate about transforming ideas into real digital products. I enjoy designing and developing web experiences that are dynamic, intuitive, and interactive, always prioritizing both functionality and aesthetics.",
+            experience: {
+                title: "Experience",
+                description:
+                    "I started my journey in the world of systems in 2015 and, since 2022, I have been professionally dedicated to software development. Throughout these years, I have worked in various environments, gaining practical experience in real projects and collaborating with multidisciplinary teams.",
+            },
+            approach: {
+                title: "Approach",
+                description:
+                    "I specialize in creating modern web applications, always prioritizing user experience, accessibility, and performance. I have a continuous improvement mindset, constantly learning and exploring new technologies, best practices, and development methodologies.",
+            },
         },
-        linkedin: {
-            title: "LinkedIn",
-            url: "https://www.linkedin.com/in/ainponce",
+        contact: {
+            title: "Contact",
+            description:
+                "Do you have a project in mind? Let's talk! Contact me through any of the following means:",
         },
-        email: {
-            title: "Email",
-            address: "ponce.ain@gmail.com",
+        skills: {
+            title: "Skills",
         },
-        x: {
-            title: "X",
-            url: "https://x.com/ainponce",
-        }
     },
-    skills: {
-        frontend: {
-            title: "Frontend",
-            technologies: ["TypeScript", "Next", "tRPC", "Redux", "Tailwind"],
-        },
-        backend: {
-            title: "Backend",
-            technologies: ["Node", "Express", "Prisma", "PostgreSQL"],
-        },
-        tools: {
-            title: "Herramientas y Otros",
-            technologies: ["Docker"],
-        },
+}
+
+const contactInfo = {
+    linkedin: {
+        title: "LinkedIn",
+        url: "https://www.linkedin.com/in/ainponce",
+    },
+    email: {
+        title: "Email",
+        address: "ponce.ain@gmail.com",
+    },
+    x: {
+        title: "X",
+        url: "https://x.com/ainponce",
+    }
+}
+
+const skillsData = {
+    frontend: {
+        technologies: ["TypeScript", "Next", "tRPC", "Redux", "Tailwind"],
+    },
+    backend: {
+        technologies: ["Node", "Express", "Prisma", "PostgreSQL"],
+    },
+    tools: {
+        technologies: ["Docker"],
     },
 }
 
 const iconSize = 40;
 const techIcons: Record<string, React.ReactNode> = {
-    TypeScript: <SiTypescript size={iconSize} color="#232323" title="TypeScript" />,
-    Next: <SiNextdotjs size={iconSize} color="#232323" title="Next.js" />,
-    tRPC: <SiTrpc size={iconSize} color="#232323" title="tRPC" />,
-    Redux: <SiRedux size={iconSize} color="#232323" title="Redux" />,
-    Tailwind: <SiTailwindcss size={iconSize} color="#232323" title="Tailwind CSS" />,
-    Node: <SiNodedotjs size={iconSize} color="#232323" title="Node.js" />,
-    Express: <SiExpress size={iconSize} color="#232323" title="Express" />,
-    Prisma: <SiPrisma size={iconSize} color="#232323" title="Prisma" />,
-    PostgreSQL: <SiPostgresql size={iconSize} color="#232323" title="PostgreSQL" />,
-    Docker: <SiDocker size={iconSize} color="#232323" title="Docker" />,
+    TypeScript: <SiTypescript size={iconSize} color="#232323" />,
+    Next: <SiNextdotjs size={iconSize} color="#232323" />,
+    tRPC: <SiTrpc size={iconSize} color="#232323" />,
+    Redux: <SiRedux size={iconSize} color="#232323" />,
+    Tailwind: <SiTailwindcss size={iconSize} color="#232323" />,
+    Node: <SiNodedotjs size={iconSize} color="#232323" />,
+    Express: <SiExpress size={iconSize} color="#232323" />,
+    Prisma: <SiPrisma size={iconSize} color="#232323" />,
+    PostgreSQL: <SiPostgresql size={iconSize} color="#232323" />,
+    Docker: <SiDocker size={iconSize} color="#232323" />,
 }
 
 export default function InfoPage() {
@@ -79,12 +107,18 @@ export default function InfoPage() {
     const [isVisible, setIsVisible] = useState(false)
     const [isExiting, setIsExiting] = useState(false)
     const [activeTooltip, setActiveTooltip] = useState<string | null>(null)
-    const [isZoomingToLogo, setIsZoomingToLogo] = useState(false)
+    const [language, setLanguage] = useState<Language>('ES')
+
+    const info = translations[language]
 
     useEffect(() => {
         const timer = setTimeout(() => setIsVisible(true), 20)
         return () => clearTimeout(timer)
     }, [])
+
+    const toggleLanguage = () => {
+        setLanguage(prev => prev === 'ES' ? 'EN' : 'ES')
+    }
 
     const handleIconTouch = (tech: string) => {
         if (activeTooltip === tech) {
@@ -96,13 +130,6 @@ export default function InfoPage() {
         }
     }
 
-    const handleLogoClick = () => {
-        setIsZoomingToLogo(true)
-        setTimeout(() => {
-            router.push("/easter-egg")
-        }, 1500)
-    }
-
     const handleBack = () => {
         setIsExiting(true)
         setTimeout(() => {
@@ -111,19 +138,12 @@ export default function InfoPage() {
     }
 
     return (
-        <div className={`info-page-container compact-layout ${isVisible ? "fade-in" : ""} ${isExiting ? "fade-exit" : ""} ${isZoomingToLogo ? "zooming-to-logo" : ""}`}>
+        <div className={`info-page-container compact-layout ${isVisible ? "fade-in" : ""} ${isExiting ? "fade-exit" : ""}`}>
             <button className="back-button" onClick={handleBack}> <ArrowLeft size={20} /> </button>
 
-            <div className="logo-container">
-                <Image
-                    src="/black-hole.svg"
-                    alt="Black Hole Logo"
-                    width={60}
-                    height={60}
-                    className="logo"
-                    onClick={handleLogoClick}
-                />
-            </div>
+            <button className="language-button" onClick={toggleLanguage}>
+                {language}
+            </button>
 
             <div className="compact-grid">
                 <div className="left-column">
@@ -142,13 +162,12 @@ export default function InfoPage() {
                 </div>
                 <div className="right-column">
                     <div className="skills-block">
-                        <h1 className="section-title">Skills</h1>
+                        <h1 className="section-title">{info.skills.title}</h1>
                         <div className="skills-icons-row">
-                            {info.skills.frontend.technologies.map((tech, idx) => (
+                            {skillsData.frontend.technologies.map((tech, idx) => (
                                 <div
                                     className={`tech-icon ${activeTooltip === tech ? 'active-tooltip' : ''}`}
                                     key={`frontend-${tech}-${idx}`}
-                                    title={tech}
                                     data-tooltip={tech}
                                     onClick={() => handleIconTouch(tech)}
                                     onTouchStart={() => handleIconTouch(tech)}
@@ -156,11 +175,10 @@ export default function InfoPage() {
                                     {techIcons[tech]}
                                 </div>
                             ))}
-                            {info.skills.backend.technologies.map((tech, idx) => (
+                            {skillsData.backend.technologies.map((tech, idx) => (
                                 <div
                                     className={`tech-icon ${activeTooltip === tech ? 'active-tooltip' : ''}`}
                                     key={`backend-${tech}-${idx}`}
-                                    title={tech}
                                     data-tooltip={tech}
                                     onClick={() => handleIconTouch(tech)}
                                     onTouchStart={() => handleIconTouch(tech)}
@@ -168,11 +186,10 @@ export default function InfoPage() {
                                     {techIcons[tech]}
                                 </div>
                             ))}
-                            {info.skills.tools.technologies.map((tech, idx) => (
+                            {skillsData.tools.technologies.map((tech, idx) => (
                                 <div
                                     className={`tech-icon ${activeTooltip === tech ? 'active-tooltip' : ''}`}
                                     key={`tools-${tech}-${idx}`}
-                                    title={tech}
                                     data-tooltip={tech}
                                     onClick={() => handleIconTouch(tech)}
                                     onTouchStart={() => handleIconTouch(tech)}
@@ -186,13 +203,13 @@ export default function InfoPage() {
                         <h1 className="section-title">{info.contact.title}</h1>
                         <p className="section-description">{info.contact.description}</p>
                         <div className="contact-icons-row">
-                            <a href={info.contact.linkedin.url} target="_blank" rel="noopener noreferrer" className="contact-icon-link">
+                            <a href={contactInfo.linkedin.url} target="_blank" rel="noopener noreferrer" className="contact-icon-link">
                                 <LuLinkedin className="contact-icon" />
                             </a>
-                            <a href={`mailto:${info.contact.email.address}`} className="contact-icon-link">
+                            <a href={`mailto:${contactInfo.email.address}`} className="contact-icon-link">
                                 <LuMail className="contact-icon" />
                             </a>
-                            <a href={info.contact.x.url} target="_blank" rel="noopener noreferrer" className="contact-icon-link">
+                            <a href={contactInfo.x.url} target="_blank" rel="noopener noreferrer" className="contact-icon-link">
                                 <SiX className="contact-icon" />
                             </a>
                         </div>
@@ -216,29 +233,6 @@ export default function InfoPage() {
                     padding: 1.2rem;
                 }
 
-                .logo-container {
-                    position: absolute;
-                    top: 2rem;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    z-index: 100;
-                }
-
-                .logo {
-                    filter: brightness(0) saturate(100%);
-                    opacity: 0.8;
-                    transition: all 0.3s ease;
-                    cursor: pointer;
-                }
-
-                .logo:hover {
-                    opacity: 1;
-                    transform: scale(1.05);
-                }
-
                 .fade-in {
                     opacity: 1;
                     transform: scale(1);
@@ -250,23 +244,6 @@ export default function InfoPage() {
                     transform: scale(0.98);
                     background: #181818;
                     transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-                }
-
-                .zooming-to-logo {
-                    background: #000000;
-                    transition: background 1.5s ease;
-                }
-
-                .zooming-to-logo .logo {
-                    transform: scale(50);
-                    transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-                    z-index: 10000;
-                }
-
-                .zooming-to-logo .compact-grid,
-                .zooming-to-logo .back-button {
-                    opacity: 0;
-                    transition: opacity 0.8s ease;
                 }
 
                 .compact-grid {
@@ -497,6 +474,33 @@ export default function InfoPage() {
                     box-shadow: 0 2px 8px rgba(35, 35, 35, 0.08);
                 }
 
+                .language-button {
+                    position: absolute;
+                    top: 1.2rem;
+                    right: 1.2rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0.6rem 1rem;
+                    background: rgba(35, 35, 35, 0.08);
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(35, 35, 35, 0.12);
+                    border-radius: 50px;
+                    color: #232323;
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    z-index: 101;
+                    min-width: 50px;
+                }
+
+                .language-button:hover {
+                    background: rgba(35, 35, 35, 0.18);
+                    transform: translateY(-2px);
+                    box-shadow: 0 2px 8px rgba(35, 35, 35, 0.08);
+                }
+
                 @media (max-width: 1200px) {
                     .compact-grid {
                         grid-template-columns: 1fr;
@@ -522,17 +526,14 @@ export default function InfoPage() {
 
                 @media (max-width: 768px) {
                     .compact-layout {
-                        padding: 5rem 1.2rem 1.2rem 1.2rem;
-                    }
-                    
-                    .logo-container {
-                        top: 1rem;
+                        padding: 1.2rem;
+                        padding-top: 5rem;
                     }
                     
                     .compact-grid {
                         grid-template-columns: 1fr;
                         max-width: 500px;
-                        margin-top: 2rem;
+                        margin-top: 0;
                     }
                                          .right-column {
                          flex-direction: column;
@@ -567,6 +568,13 @@ export default function InfoPage() {
                     .back-button {
                         top: 1rem;
                         left: 1rem;
+                        position: fixed;
+                        z-index: 102;
+                    }
+
+                    .language-button {
+                        top: 1rem;
+                        right: 1rem;
                         position: fixed;
                         z-index: 102;
                     }

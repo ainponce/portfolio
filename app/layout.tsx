@@ -4,11 +4,50 @@ import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ainponce.com'
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: 'Ain Moises Ponce | Portfolio',
-  description: 'Portfolio de Ain Moises Ponce',
+  description: 'Portfolio de Ain Moises Ponce - Desarrollador Full Stack especializado en React, Next.js, TypeScript y tecnologías web modernas.',
   icons: {
     icon: '/favicon-96x96.png',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'es_ES',
+    url: siteUrl,
+    siteName: 'Ain Moises Ponce Portfolio',
+    title: 'Ain Moises Ponce | Portfolio',
+    description: 'Portfolio de Ain Moises Ponce - Desarrollador Full Stack especializado en React, Next.js, TypeScript y tecnologías web modernas.',
+    images: [
+      {
+        url: '/placeholder.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Ain Moises Ponce Portfolio',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ain Moises Ponce | Portfolio',
+    description: 'Portfolio de Ain Moises Ponce - Desarrollador Full Stack especializado en React, Next.js, TypeScript y tecnologías web modernas.',
+    images: ['/placeholder.jpg'],
+  },
+  alternates: {
+    canonical: siteUrl,
   },
 }
 

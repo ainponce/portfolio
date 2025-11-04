@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
-import { SiTypescript, SiNextdotjs, SiTrpc, SiRedux, SiNodedotjs, SiExpress, SiPrisma, SiPostgresql, SiDocker, SiX, SiTailwindcss } from 'react-icons/si'
+import { SiTypescript, SiNextdotjs, SiTrpc, SiRedux, SiNodedotjs, SiExpress, SiPrisma, SiPostgresql, SiDocker, SiX, SiTailwindcss, SiGithub } from 'react-icons/si'
 import { LuMail, LuLinkedin } from 'react-icons/lu'
 import { ArrowLeft } from "lucide-react"
 
@@ -13,7 +13,7 @@ const translations = {
         about: {
             title: "Sobre Mí",
             description:
-                "¡Hola! Soy Ain, un software developer apasionado por transformar ideas en productos digitales reales. Disfruto diseñar y desarrollar experiencias web que sean dinámicas, intuitivas e interactivas, siempre priorizando tanto la funcionalidad como la estética.",
+                "¡Hola! Soy Ain, un ingeniero de software apasionado por transformar ideas en productos digitales reales. Disfruto diseñar y desarrollar experiencias web que sean dinámicas, intuitivas e interactivas, siempre priorizando tanto la funcionalidad como la estética.",
             experience: {
                 title: "Experiencia",
                 description:
@@ -38,7 +38,7 @@ const translations = {
         about: {
             title: "About Me",
             description:
-                "Hi! I'm Ain, a software developer passionate about transforming ideas into real digital products. I enjoy designing and developing web experiences that are dynamic, intuitive, and interactive, always prioritizing both functionality and aesthetics.",
+                "Hi! I'm Ain, a software engineer passionate about transforming ideas into real digital products. I enjoy designing and developing web experiences that are dynamic, intuitive, and interactive, always prioritizing both functionality and aesthetics.",
             experience: {
                 title: "Experience",
                 description:
@@ -73,6 +73,10 @@ const contactInfo = {
     x: {
         title: "X",
         url: "https://x.com/ainponce",
+    },
+    github: {
+        title: "GitHub",
+        url: "https://github.com/ainponce",
     }
 }
 
@@ -211,6 +215,9 @@ export default function InfoPage() {
                             </a>
                             <a href={contactInfo.x.url} target="_blank" rel="noopener noreferrer" className="contact-icon-link">
                                 <SiX className="contact-icon" />
+                            </a>
+                            <a href={contactInfo.github.url} target="_blank" rel="noopener noreferrer" className="contact-icon-link">
+                                <SiGithub className="contact-icon" />
                             </a>
                         </div>
                     </div>

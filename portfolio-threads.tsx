@@ -154,7 +154,7 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
       {isContentReady && !isExiting && (
         <div className={`header-text ${activeSection || isZoomingToCenter ? "hidden" : ""} ${isHeaderVisible ? "visible" : ""}`}>
           Ain Moises Ponce
-          <span>Software Developer</span>
+          <span>Software Engineer</span>
           <span className="instruction-text">Interactúa con los hilos y explora</span>
         </div>
       )}
@@ -346,6 +346,8 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
           box-shadow: 0 0 40px 12px #ffffff60;
           animation: pulse-white 2s infinite alternate;
           background: linear-gradient(to bottom, #ffffff 0%, #e0e0e0 100%) !important;
+          width: 1.8vw !important;
+          min-width: 15px !important;
         }
         
         @keyframes vibrar {
@@ -628,6 +630,16 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
         }
         
         @media (max-width: 768px) {
+          .thread {
+            width: 4vw;
+            min-width: 16px;
+          }
+          
+          .main-thread {
+            width: 6vw !important;
+            min-width: 24px !important;
+          }
+          
           .header-text {
             font-size: 1.8rem;
             top: 20px;

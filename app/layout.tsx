@@ -8,7 +8,13 @@ const inter = Inter({ subsets: ['latin'] })
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ainponce.com'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const ogImageUrl = await getOgImageUrl('ainponce') || `${siteUrl}/og-image.png`
+  const blobImageUrl = await getOgImageUrl('ainponce');
+  const ogImageUrl = blobImageUrl || `${siteUrl}/og-image.png`;
+  
+  // Log para debugging (solo en desarrollo)
+  if (process.env.NODE_ENV === 'development') {
+    console.log('OG Image URL:', ogImageUrl);
+  }
 
   return {
     metadataBase: new URL(siteUrl),

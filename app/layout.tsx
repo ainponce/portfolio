@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     description: 'Portfolio de Ain Moises Ponce - Desarrollador Full Stack especializado en React, Next.js, TypeScript y tecnologías web modernas.',
     images: [
       {
-        url: '/placeholder.jpg',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Ain Moises Ponce Portfolio',
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Full Stack Developer - React & Next.js | Ain Ponce',
     description: 'Portfolio de Ain Moises Ponce - Desarrollador Full Stack especializado en React, Next.js, TypeScript y tecnologías web modernas.',
-    images: ['/placeholder.jpg'],
+    images: ['/og-image.png'],
   },
   alternates: {
     canonical: siteUrl,

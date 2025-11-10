@@ -8,55 +8,35 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ainponce.com'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'Full Stack Developer - React & Next.js | Ain Ponce',
-  description: 'Portfolio de Ain Moises Ponce - Desarrollador Full Stack especializado en React, Next.js, TypeScript y tecnologías web modernas.',
+  title: 'Ain Ponce | Software Engineer',
+  description: 'Software Engineer especializado en desarrollo de aplicaciones web escalables con React, Next.js, TypeScript y arquitecturas modernas.',
   keywords: [
     'Ain Moises Ponce',
-    'Full Stack Developer',
-    'React Developer',
-    'Next.js Developer',
-    'TypeScript Developer',
-    'Web Developer Portfolio',
-    'Frontend Developer',
-    'Backend Developer',
     'Software Engineer',
-    'Buenos Aires Developer'
+    'Software Developer',
+    'React Engineer',
+    'Next.js Developer',
+    'TypeScript Engineer',
+    'Full Stack Engineer',
+    'Web Development',
+    'Software Architecture',
+    'Buenos Aires'
   ],
   icons: {
     icon: '/favicon-96x96.png',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
   },
   openGraph: {
     type: 'website',
     locale: 'es_ES',
     url: siteUrl,
-    siteName: 'Ain Moises Ponce Portfolio',
-    title: 'Full Stack Developer - React & Next.js | Ain Ponce',
-    description: 'Portfolio de Ain Moises Ponce - Desarrollador Full Stack especializado en React, Next.js, TypeScript y tecnologías web modernas.',
-    images: [
-      {
-        url: `${siteUrl}/api/og`,
-        width: 1200,
-        height: 630,
-        alt: 'Ain Moises Ponce Portfolio',
-      },
-    ],
+    siteName: 'Ain Ponce - Software Engineer',
+    title: 'Ain Ponce | Software Engineer',
+    description: 'Software Engineer especializado en desarrollo de aplicaciones web escalables con React, Next.js, TypeScript y arquitecturas modernas.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Full Stack Developer - React & Next.js | Ain Ponce',
-    description: 'Portfolio de Ain Moises Ponce - Desarrollador Full Stack especializado en React, Next.js, TypeScript y tecnologías web modernas.',
-    images: [`${siteUrl}/api/og`],
+    title: 'Ain Ponce | Software Engineer',
+    description: 'Software Engineer especializado en desarrollo de aplicaciones web escalables con React, Next.js, TypeScript y arquitecturas modernas.',
   },
   alternates: {
     canonical: siteUrl,

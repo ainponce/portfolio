@@ -8,6 +8,16 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ainponce.com'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  icons: {
+    icon: '/favicon-96x96.png',
+  },
+  openGraph: {
+    images: ['/opengraph-image.png'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/twitter-image.png'],
+  },
 }
 
 export default function RootLayout({

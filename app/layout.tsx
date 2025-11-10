@@ -8,48 +8,6 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ainponce.com'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'Ain Ponce | Software Engineer',
-  description: 'Software Engineer especializado en desarrollo de aplicaciones web escalables con React, Next.js, TypeScript y arquitecturas modernas.',
-  keywords: [
-    'Ain Moises Ponce',
-    'Software Engineer',
-    'Software Developer',
-    'React Engineer',
-    'Next.js Developer',
-    'TypeScript Engineer',
-    'Full Stack Engineer',
-    'Web Development',
-    'Software Architecture',
-    'Buenos Aires'
-  ],
-  icons: {
-    icon: '/favicon-96x96.png',
-  },
-  openGraph: {
-    type: 'website',
-    locale: 'es_ES',
-    url: siteUrl,
-    siteName: 'Ain Ponce - Software Engineer',
-    title: 'Ain Ponce | Software Engineer',
-    description: 'Software Engineer especializado en desarrollo de aplicaciones web escalables con React, Next.js, TypeScript y arquitecturas modernas.',
-    images: [
-      {
-        url: '/opengraph-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Ain Ponce - Software Engineer',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Ain Ponce | Software Engineer',
-    description: 'Software Engineer especializado en desarrollo de aplicaciones web escalables con React, Next.js, TypeScript y arquitecturas modernas.',
-    images: ['/twitter-image.png'],
-  },
-  alternates: {
-    canonical: siteUrl,
-  },
 }
 
 export default function RootLayout({

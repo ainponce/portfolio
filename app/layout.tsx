@@ -32,11 +32,20 @@ export const metadata: Metadata = {
     siteName: 'Ain Ponce - Software Engineer',
     title: 'Ain Ponce | Software Engineer',
     description: 'Software Engineer especializado en desarrollo de aplicaciones web escalables con React, Next.js, TypeScript y arquitecturas modernas.',
+    images: [
+      {
+        url: '/opengraph-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Ain Ponce - Software Engineer',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Ain Ponce | Software Engineer',
     description: 'Software Engineer especializado en desarrollo de aplicaciones web escalables con React, Next.js, TypeScript y arquitecturas modernas.',
+    images: ['/twitter-image.png'],
   },
   alternates: {
     canonical: siteUrl,

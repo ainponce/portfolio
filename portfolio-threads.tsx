@@ -152,11 +152,11 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
 
       {/* Header */}
       {isContentReady && !isExiting && (
-        <div className={`header-text ${activeSection || isZoomingToCenter ? "hidden" : ""} ${isHeaderVisible ? "visible" : ""}`}>
+        <h1 className={`header-text ${activeSection || isZoomingToCenter ? "hidden" : ""} ${isHeaderVisible ? "visible" : ""}`}>
           Ain Moises Ponce
           <span>Software Engineer</span>
           <span className="instruction-text">Interactúa con los hilos y explora</span>
-        </div>
+        </h1>
       )}
 
       {/* Wall of threads */}

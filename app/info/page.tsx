@@ -144,6 +144,7 @@ export default function InfoPage() {
     return (
         <div className={`info-page-container compact-layout ${isVisible ? "fade-in" : ""} ${isExiting ? "fade-exit" : ""}`}>
             <button className="back-button" onClick={handleBack}> <ArrowLeft size={20} /> </button>
+            <h1 className="sr-only">About Ain Ponce</h1>
 
             <button className="language-button" onClick={toggleLanguage}>
                 {language}
@@ -152,21 +153,21 @@ export default function InfoPage() {
             <div className="compact-grid">
                 <div className="left-column">
                     <div className="about-block">
-                        <h1 className="section-title">{info.about.title}</h1>
+                        <h2 className="section-title">{info.about.title}</h2>
                         <p className="section-description">{info.about.description}</p>
                     </div>
                     <div className="experience-block">
-                        <h1 className="section-title">{info.about.experience.title}</h1>
+                        <h2 className="section-title">{info.about.experience.title}</h2>
                         <p className="section-description">{info.about.experience.description}</p>
                     </div>
                     <div className="approach-block">
-                        <h1 className="section-title">{info.about.approach.title}</h1>
+                        <h2 className="section-title">{info.about.approach.title}</h2>
                         <p className="section-description">{info.about.approach.description}</p>
                     </div>
                 </div>
                 <div className="right-column">
                     <div className="skills-block">
-                        <h1 className="section-title">{info.skills.title}</h1>
+                        <h2 className="section-title">{info.skills.title}</h2>
                         <div className="skills-icons-row">
                             {skillsData.frontend.technologies.map((tech, idx) => (
                                 <div
@@ -204,7 +205,7 @@ export default function InfoPage() {
                         </div>
                     </div>
                     <div className="contact-block">
-                        <h1 className="section-title">{info.contact.title}</h1>
+                        <h2 className="section-title">{info.contact.title}</h2>
                         <p className="section-description">{info.contact.description}</p>
                         <div className="contact-icons-row">
                             <a href={contactInfo.linkedin.url} target="_blank" rel="noopener noreferrer" className="contact-icon-link">

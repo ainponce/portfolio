@@ -53,7 +53,7 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
       blinkTimeoutRef.current = setTimeout(() => {
         setShouldBlinkMainThread(true)
       }, 3000)
-    }, 500)
+    }, 100)
     return () => clearTimeout(timer)
   }, [])
 

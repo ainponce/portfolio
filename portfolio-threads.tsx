@@ -155,7 +155,7 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
         <h1 className={`header-text ${activeSection || isZoomingToCenter ? "hidden" : ""} ${isHeaderVisible ? "visible" : ""}`}>
           Ain Moises Ponce
           <span>Software Engineer</span>
-          <span className="instruction-text">Interactúa con los hilos y explora</span>
+          <span className="instruction-text">Interact with the threads and explore</span>
         </h1>
       )}
 
@@ -187,7 +187,7 @@ export default function PortfolioThreads({ onCentralThreadClick }: { onCentralTh
         <div className={`content-overlay ${isTransitioning ? "transitioning" : "visible"}`} style={{ zIndex: 2000 }}>
           <button className="back-button" onClick={handleBack}>
             <ArrowLeft size={20} />
-            Volver
+            Back
           </button>
 
           <div className="content-container">

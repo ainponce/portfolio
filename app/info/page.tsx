@@ -5,6 +5,7 @@ import { useState, useEffect } from "react"
 import { SiTypescript, SiNextdotjs, SiTrpc, SiRedux, SiNodedotjs, SiExpress, SiPrisma, SiPostgresql, SiDocker, SiX, SiTailwindcss, SiGithub } from 'react-icons/si'
 import { LuMail, LuLinkedin } from 'react-icons/lu'
 import { ArrowLeft } from "lucide-react"
+import MotionTooltip from "@/components/ui/motion-tooltip"
 
 type Language = 'ES' | 'EN'
 
@@ -110,8 +111,7 @@ export default function InfoPage() {
     const router = useRouter()
     const [isVisible, setIsVisible] = useState(false)
     const [isExiting, setIsExiting] = useState(false)
-    const [activeTooltip, setActiveTooltip] = useState<string | null>(null)
-    const [language, setLanguage] = useState<Language>('ES')
+    const [language, setLanguage] = useState<Language>('EN')
 
     const info = translations[language]
 
@@ -122,16 +122,6 @@ export default function InfoPage() {
 
     const toggleLanguage = () => {
         setLanguage(prev => prev === 'ES' ? 'EN' : 'ES')
-    }
-
-    const handleIconTouch = (tech: string) => {
-        if (activeTooltip === tech) {
-            setActiveTooltip(null)
-        } else {
-            setActiveTooltip(tech)
-            // Auto-hide tooltip after 2 seconds
-            setTimeout(() => setActiveTooltip(null), 2000)
-        }
     }
 
     const handleBack = () => {
@@ -170,37 +160,25 @@ export default function InfoPage() {
                         <h2 className="section-title">{info.skills.title}</h2>
                         <div className="skills-icons-row">
                             {skillsData.frontend.technologies.map((tech, idx) => (
-                                <div
-                                    className={`tech-icon ${activeTooltip === tech ? 'active-tooltip' : ''}`}
-                                    key={`frontend-${tech}-${idx}`}
-                                    data-tooltip={tech}
-                                    onClick={() => handleIconTouch(tech)}
-                                    onTouchStart={() => handleIconTouch(tech)}
-                                >
-                                    {techIcons[tech]}
-                                </div>
+                                <MotionTooltip content={tech.toLowerCase()} key={`frontend-${tech}-${idx}`}>
+                                    <div className="tech-icon">
+                                        {techIcons[tech]}
+                                    </div>
+                                </MotionTooltip>
                             ))}
                             {skillsData.backend.technologies.map((tech, idx) => (
-                                <div
-                                    className={`tech-icon ${activeTooltip === tech ? 'active-tooltip' : ''}`}
-                                    key={`backend-${tech}-${idx}`}
-                                    data-tooltip={tech}
-                                    onClick={() => handleIconTouch(tech)}
-                                    onTouchStart={() => handleIconTouch(tech)}
-                                >
-                                    {techIcons[tech]}
-                                </div>
+                                <MotionTooltip content={tech.toLowerCase()} key={`backend-${tech}-${idx}`}>
+                                    <div className="tech-icon">
+                                        {techIcons[tech]}
+                                    </div>
+                                </MotionTooltip>
                             ))}
                             {skillsData.tools.technologies.map((tech, idx) => (
-                                <div
-                                    className={`tech-icon ${activeTooltip === tech ? 'active-tooltip' : ''}`}
-                                    key={`tools-${tech}-${idx}`}
-                                    data-tooltip={tech}
-                                    onClick={() => handleIconTouch(tech)}
-                                    onTouchStart={() => handleIconTouch(tech)}
-                                >
-                                    {techIcons[tech]}
-                                </div>
+                                <MotionTooltip content={tech.toLowerCase()} key={`tools-${tech}-${idx}`}>
+                                    <div className="tech-icon">
+                                        {techIcons[tech]}
+                                    </div>
+                                </MotionTooltip>
                             ))}
                         </div>
                     </div>
@@ -208,18 +186,26 @@ export default function InfoPage() {
                         <h2 className="section-title">{info.contact.title}</h2>
                         <p className="section-description">{info.contact.description}</p>
                         <div className="contact-icons-row">
-                            <a href={contactInfo.linkedin.url} target="_blank" rel="noopener noreferrer" className="contact-icon-link">
-                                <LuLinkedin className="contact-icon" />
-                            </a>
-                            <a href={`mailto:${contactInfo.email.address}`} className="contact-icon-link">
-                                <LuMail className="contact-icon" />
-                            </a>
-                            <a href={contactInfo.x.url} target="_blank" rel="noopener noreferrer" className="contact-icon-link">
-                                <SiX className="contact-icon" />
-                            </a>
-                            <a href={contactInfo.github.url} target="_blank" rel="noopener noreferrer" className="contact-icon-link">
-                                <SiGithub className="contact-icon" />
-                            </a>
+                            <MotionTooltip content="linkedin">
+                                <a href={contactInfo.linkedin.url} target="_blank" rel="noopener noreferrer" className="contact-icon-link">
+                                    <LuLinkedin className="contact-icon" />
+                                </a>
+                            </MotionTooltip>
+                            <MotionTooltip content="email">
+                                <a href={`mailto:${contactInfo.email.address}`} className="contact-icon-link">
+                                    <LuMail className="contact-icon" />
+                                </a>
+                            </MotionTooltip>
+                            <MotionTooltip content="x">
+                                <a href={contactInfo.x.url} target="_blank" rel="noopener noreferrer" className="contact-icon-link">
+                                    <SiX className="contact-icon" />
+                                </a>
+                            </MotionTooltip>
+                            <MotionTooltip content="github">
+                                <a href={contactInfo.github.url} target="_blank" rel="noopener noreferrer" className="contact-icon-link">
+                                    <SiGithub className="contact-icon" />
+                                </a>
+                            </MotionTooltip>
                         </div>
                     </div>
                 </div>
@@ -239,6 +225,7 @@ export default function InfoPage() {
                     transform: scale(0.98);
                     transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
                     padding: 1.2rem;
+                    text-transform: lowercase;
                 }
 
                 .fade-in {
@@ -370,57 +357,6 @@ export default function InfoPage() {
                 .tech-icon:hover {
                     background: rgba(35,35,35,0.15);
                     transform: translateY(-2px);
-                }
-
-                .tech-icon::after {
-                    content: attr(data-tooltip);
-                    position: absolute;
-                    top: -35px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: rgba(35, 35, 35, 0.9);
-                    color: white;
-                    padding: 6px 10px;
-                    border-radius: 6px;
-                    font-size: 0.75rem;
-                    white-space: nowrap;
-                    opacity: 0;
-                    pointer-events: none;
-                    transition: opacity 0.3s ease;
-                    z-index: 10000;
-                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-                }
-
-                .tech-icon:hover::after {
-                    opacity: 1;
-                }
-
-                /* Flecha del tooltip */
-                .tech-icon::before {
-                    content: '';
-                    position: absolute;
-                    top: -8px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    border: 5px solid transparent;
-                    border-top-color: rgba(35, 35, 35, 0.9);
-                    opacity: 0;
-                    pointer-events: none;
-                    transition: opacity 0.3s ease;
-                    z-index: 10000;
-                }
-
-                .tech-icon:hover::before {
-                    opacity: 1;
-                }
-
-                /* Tooltip activo en mobile */
-                .tech-icon.active-tooltip::after {
-                    opacity: 1;
-                }
-
-                .tech-icon.active-tooltip::before {
-                    opacity: 1;
                 }
 
                 .contact-icons-row {
@@ -564,14 +500,6 @@ export default function InfoPage() {
                         min-width: 50px;
                         min-height: 50px;
                         position: relative;
-                    }
-                    .tech-icon::after {
-                        font-size: 0.7rem;
-                        top: -40px;
-                        padding: 8px 12px;
-                    }
-                    .tech-icon::before {
-                        top: -10px;
                     }
                     .back-button {
                         top: 1rem;

@@ -67,6 +67,8 @@ export const metadata: Metadata = {
   },
 }
 
+import CustomCursor from '@/components/ui/custom-cursor'
+
 export default function RootLayout({
   children,
 }: {
@@ -75,6 +77,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
+        <CustomCursor />
         <main>{children}</main>
       </body>
     </html>

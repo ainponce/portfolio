@@ -2,12 +2,16 @@
 
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 export default function CustomCursor() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
     const [isPointer, setIsPointer] = useState(false)
+    const isMobile = useIsMobile()
 
     useEffect(() => {
+        if (isMobile) return
+
         const updateMousePosition = (e: MouseEvent) => {
             setMousePosition({ x: e.clientX, y: e.clientY })
 
@@ -24,7 +28,11 @@ export default function CustomCursor() {
 
         window.addEventListener("mousemove", updateMousePosition)
         return () => window.removeEventListener("mousemove", updateMousePosition)
-    }, [])
+    }, [isMobile])
+
+    if (isMobile) {
+        return null
+    }
 
     return (
         <>

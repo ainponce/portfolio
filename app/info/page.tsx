@@ -34,6 +34,7 @@ const translations = {
         skills: {
             title: "Habilidades",
         },
+        blog: "sección de blog pronto",
     },
     EN: {
         about: {
@@ -59,6 +60,7 @@ const translations = {
         skills: {
             title: "Skills",
         },
+        blog: "blog section soon",
     },
 }
 
@@ -210,6 +212,7 @@ export default function InfoPage() {
                     </div>
                 </div>
             </div>
+            <p className="blog-legend">{info.blog}</p>
             <style jsx>{`
                 .compact-layout {
                     min-height: 100vh;
@@ -514,6 +517,14 @@ export default function InfoPage() {
                         position: fixed;
                         z-index: 102;
                     }
+                }
+
+                .blog-legend {
+                    margin-top: 2rem;
+                    color: #9ca3af;
+                    font-size: 0.9rem;
+                    font-style: italic;
+                    opacity: 0.8;
                 }
             `}</style>
         </div>

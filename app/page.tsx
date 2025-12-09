@@ -90,7 +90,7 @@ export default function Home() {
               href={link.href}
               target={link.href.startsWith("mailto") ? undefined : "_blank"}
               rel={link.href.startsWith("mailto") ? undefined : "noopener noreferrer"}
-              className="text-black text-xs md:text-sm font-normal cursor-pointer hover:opacity-70 transition-opacity"
+              className="text-black text-xs md:text-sm font-normal cursor-pointer transition-opacity"
             >
               {link.name}
             </motion.a>

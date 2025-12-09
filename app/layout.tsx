@@ -1,85 +1,36 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
+import type React from "react"
+import type { Metadata } from "next"
 
-const inter = Inter({ subsets: ['latin'], display: 'swap' })
+import { Analytics } from "@vercel/analytics/next"
+import "./globals.css"
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ainponce.com'
+import { Playfair_Display, Geist_Mono as V0_Font_Geist_Mono } from 'next/font/google'
+
+// Initialize fonts
+const _geistMono = V0_Font_Geist_Mono({ subsets: ['latin'], weight: ["100","200","300","400","500","600","700","800","900"] })
+
+const _playfairDisplay = Playfair_Display({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800", "900"] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: 'Ain Ponce | Portfolio',
-    template: '%s | Ain Ponce',
-  },
-  description: 'Portfolio of Ain Ponce. Creative developer and designer.',
-  keywords: ['Ain Ponce', 'Portfolio', 'Developer', 'Designer', 'Web Development', 'Creative'],
-  authors: [{ name: 'Ain Ponce', url: siteUrl }],
-  creator: 'Ain Ponce',
-  publisher: 'Ain Ponce',
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  alternates: {
-    canonical: '/',
-  },
+  title: "Ain Moises Ponce",
+  description: "Portfolio",
+  generator: "v0.app",
   icons: {
-    icon: '/favicon-96x96.png',
-    apple: '/apple-icon.png',
+    icon: "/images/katana.png",
+    apple: "/images/katana.png",
   },
-  openGraph: {
-    title: 'Ain Ponce | Portfolio',
-    description: 'Portfolio of Ain Ponce. Creative developer and designer.',
-    url: siteUrl,
-    siteName: 'Ain Ponce Portfolio',
-    locale: 'en_US',
-    type: 'website',
-    images: [
-      {
-        url: '/opengraph-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Ain Ponce Portfolio',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Ain Ponce | Portfolio',
-    description: 'Portfolio of Ain Ponce. Creative developer and designer.',
-    creator: '@ainponce',
-    images: [
-      {
-        url: '/opengraph-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Ain Ponce Portfolio',
-      },
-    ],
-  },
-    generator: 'v0.app'
 }
-
-import CustomCursor from '@/components/ui/custom-cursor'
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode
-}) {
+}>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>
-        <CustomCursor />
-        <main>{children}</main>
+    <html lang="en">
+      <body className={`font-sans antialiased`}>
+        {children}
+        <Analytics />
       </body>
     </html>
   )

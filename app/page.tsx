@@ -33,11 +33,6 @@ const socialLinks = [
   { name: "Mail", href: "mailto:ponce.ain@gmail.com" },
 ]
 
-const arrowVariants = {
-  initial: { x: 0, y: 0 },
-  hover: { x: 2, y: -2, transition: { duration: 0.2 } },
-}
-
 export default function Home() {
   return (
     <main className="min-h-screen bg-white flex items-center justify-center px-6">
@@ -84,9 +79,10 @@ export default function Home() {
           honest.
         </motion.p>
 
+        {/* Simplified links to just names */}
         <motion.div
           variants={itemVariants}
-          className="relative z-20 flex items-center justify-center gap-4 md:gap-6 w-full mt-8 md:mt-10"
+          className="flex items-center justify-center gap-4 md:gap-6 w-full mt-8 md:mt-10"
         >
           {socialLinks.map((link) => (
             <motion.a
@@ -94,14 +90,9 @@ export default function Home() {
               href={link.href}
               target={link.href.startsWith("mailto") ? undefined : "_blank"}
               rel={link.href.startsWith("mailto") ? undefined : "noopener noreferrer"}
-              className="relative z-30 inline-flex items-center text-black text-xs md:text-sm font-normal px-2 py-2 cursor-pointer hover:opacity-70"
-              whileHover="hover"
-              initial="initial"
+              className="text-black text-xs md:text-sm font-normal cursor-pointer hover:opacity-70 transition-opacity"
             >
-              <span className="mr-0.5">{link.name}</span>
-              <motion.span className="inline-block" variants={arrowVariants}>
-                ↗
-              </motion.span>
+              {link.name}
             </motion.a>
           ))}
         </motion.div>

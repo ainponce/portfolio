@@ -13,11 +13,30 @@ const _playfairDisplay = Playfair_Display({ subsets: ["latin"], weight: ["400", 
 
 export const metadata: Metadata = {
   title: "Ain Moises Ponce",
-  description: "Portfolio",
+  description: "Product Engineer focused on the intention behind the code.",
   generator: "v0.app",
   icons: {
     icon: "/images/katana.png",
     apple: "/images/katana.png",
+  },
+  openGraph: {
+    title: "Ain Moises Ponce",
+    description: "Product Engineer focused on the intention behind the code.",
+    images: [
+      {
+        url: "/images/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Ain Moises Ponce - Product Engineer",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ain Moises Ponce",
+    description: "Product Engineer focused on the intention behind the code.",
+    images: ["/images/og-image.png"],
   },
 }
 

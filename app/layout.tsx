@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     description: "Product Engineer focused on the intention behind the code.",
     images: [
       {
-        url: "/images/og-image.png",
+        url: "/images/opengraph-image.png",
         width: 1200,
         height: 630,
         alt: "Ain Moises Ponce - Product Engineer",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Ain Moises Ponce",
     description: "Product Engineer focused on the intention behind the code.",
-    images: ["/images/og-image.png"],
+    images: ["/images/opengraph-image.png"],
   },
 }
 

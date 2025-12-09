@@ -65,6 +65,7 @@ export const metadata: Metadata = {
       },
     ],
   },
+    generator: 'v0.app'
 }
 
 import CustomCursor from '@/components/ui/custom-cursor'

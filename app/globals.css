@@ -209,4 +209,17 @@
     scrollbar-width: thin;
     scrollbar-color: #000000 #b91c1c;
   }
+
+  /* Custom text selection for /ronin page - black bg with red text */
+  .ronin-selection *::selection,
+  .ronin-selection *::-moz-selection {
+    background-color: #000000 !important;
+    color: #b91c1c !important;
+  }
+
+  .ronin-selection::selection,
+  .ronin-selection::-moz-selection {
+    background-color: #000000 !important;
+    color: #b91c1c !important;
+  }
 }

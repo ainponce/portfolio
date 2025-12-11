@@ -37,11 +37,13 @@ export default function RoninPage() {
     document.documentElement.style.backgroundColor = RONIN_RED
     document.body.style.backgroundColor = RONIN_RED
     document.documentElement.classList.add("ronin-scrollbar")
+    document.documentElement.classList.add("ronin-selection")
 
     return () => {
       document.documentElement.style.backgroundColor = ""
       document.body.style.backgroundColor = ""
       document.documentElement.classList.remove("ronin-scrollbar")
+      document.documentElement.classList.remove("ronin-selection")
     }
   }, [])
 

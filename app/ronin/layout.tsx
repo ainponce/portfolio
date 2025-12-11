@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     description: "My story and journey as a Product Engineer",
     images: [
       {
-        url: "/images/ronin-opengraph-image.jpg",
+        url: "/images/ronin-opengraph-image.png",
         width: 1200,
         height: 630,
         alt: "The Way of The Ronin - Ain Moises Ponce",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "The Way of The Ronin | Ain Moises Ponce",
     description: "My story and journey as a Product Engineer",
-    images: ["/images/ronin-opengraph-image.jpg"],
+    images: ["/images/ronin-opengraph-image.png"],
   },
 }
 

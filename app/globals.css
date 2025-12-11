@@ -162,14 +162,51 @@
     @apply bg-background text-foreground;
   }
 
-  /* Custom text selection colors - black background with white text */
+  /* Enhanced text selection colors with better mobile support */
+  *::selection,
+  *::-moz-selection {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+  }
+
   ::selection {
-    background-color: #000000;
-    color: #ffffff;
+    background-color: #000000 !important;
+    color: #ffffff !important;
   }
 
   ::-moz-selection {
-    background-color: #000000;
-    color: #ffffff;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+  }
+
+  /* Additional mobile-specific selection handling */
+  body *::selection,
+  body *::-moz-selection {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+  }
+
+  /* Custom scrollbar for /ronin page - red and black theme */
+  .ronin-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .ronin-scrollbar::-webkit-scrollbar-track {
+    background: #b91c1c;
+  }
+
+  .ronin-scrollbar::-webkit-scrollbar-thumb {
+    background: #000000;
+    border-radius: 4px;
+  }
+
+  .ronin-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #1a1a1a;
+  }
+
+  /* Firefox scrollbar support */
+  .ronin-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #000000 #b91c1c;
   }
 }

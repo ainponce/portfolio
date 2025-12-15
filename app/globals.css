@@ -222,4 +222,17 @@
     background-color: #000000 !important;
     color: #b91c1c !important;
   }
+
+  /* Booking calendar styles */
+  .booking-calendar {
+    width: 100%;
+  }
+
+  .booking-calendar .rdp-month {
+    width: 100%;
+  }
+
+  .booking-calendar .rdp-table {
+    width: 100%;
+  }
 }

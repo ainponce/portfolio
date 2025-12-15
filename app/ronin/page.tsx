@@ -12,7 +12,7 @@ const containerVariants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.3,
-      delayChildren: 0.3, // Reduced delay since overlay fades faster now
+      delayChildren: 0.3,
     },
   },
 }
@@ -28,6 +28,12 @@ const itemVariants = {
     },
   },
 }
+
+const indexItems = [
+  { id: "the-way-of-the-ronin", title: "The Way of The Ronin", active: true },
+  // Add more items here in the future
+  // { id: "another-text", title: "Another Text", active: false },
+]
 
 export default function RoninPage() {
   const router = useRouter()
@@ -63,7 +69,7 @@ export default function RoninPage() {
         animate={{ opacity: 0 }}
         transition={{
           duration: 0.8,
-          delay: 0.1, // Small delay to ensure page is ready
+          delay: 0.1,
           ease: [0.4, 0, 0.2, 1],
         }}
       />
@@ -81,6 +87,28 @@ export default function RoninPage() {
           />
         )}
       </AnimatePresence>
+
+      <motion.nav
+        className="fixed left-6 md:left-12 top-1/2 -translate-y-1/2 z-40 hidden md:block"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.ul className="space-y-3" variants={itemVariants}>
+          {indexItems.map((item) => (
+            <motion.li
+              key={item.id}
+              className="text-black text-xs font-normal"
+              whileHover={{ opacity: 0.6 }}
+              transition={{ duration: 0.2 }}
+            >
+              <a href={`#${item.id}`} className={`block ${item.active ? "opacity-100" : "opacity-50"}`}>
+                {item.title}
+              </a>
+            </motion.li>
+          ))}
+        </motion.ul>
+      </motion.nav>
 
       <main className="min-h-screen flex items-center justify-center px-6" style={{ backgroundColor: RONIN_RED }}>
         <motion.div
@@ -103,6 +131,7 @@ export default function RoninPage() {
 
           {/* Title - left aligned like main page */}
           <motion.h1
+            id="the-way-of-the-ronin"
             variants={itemVariants}
             className="font-serif text-2xl md:text-4xl text-black tracking-tight mb-4 md:mb-6"
           >

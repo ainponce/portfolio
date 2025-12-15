@@ -4,7 +4,6 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
-import { BookingWidget } from "@/components/booking-widget"
 
 const RONIN_RED = "#B91C1C"
 
@@ -41,13 +40,12 @@ const socialLinks = [
 export default function Home() {
   const router = useRouter()
   const [isTransitioning, setIsTransitioning] = useState(false)
-  const [isBookingOpen, setIsBookingOpen] = useState(false)
 
   const handleRoninClick = () => {
     setIsTransitioning(true)
     setTimeout(() => {
       router.push("/ronin")
-    }, 2000)
+    }, 2000) // Navigate after longer overlay animation
   }
 
   return (
@@ -60,13 +58,11 @@ export default function Home() {
             animate={{ backgroundColor: RONIN_RED }}
             transition={{
               duration: 2,
-              ease: [0.4, 0, 0.2, 1],
+              ease: [0.4, 0, 0.2, 1], // Smoother easing curve
             }}
           />
         )}
       </AnimatePresence>
-
-      <BookingWidget isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
 
       <main className="min-h-screen bg-white flex items-center justify-center px-6">
         <motion.div
@@ -75,6 +71,7 @@ export default function Home() {
           initial="hidden"
           animate="visible"
         >
+          {/* Image - left aligned */}
           <motion.div
             variants={itemVariants}
             whileHover={{
@@ -137,12 +134,6 @@ export default function Home() {
                 {link.name}
               </motion.a>
             ))}
-            <motion.button
-              onClick={() => setIsBookingOpen(true)}
-              className="text-black text-xs md:text-sm font-normal cursor-pointer transition-opacity hover:opacity-60"
-            >
-              Calendar
-            </motion.button>
           </motion.div>
         </motion.div>
       </main>

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { getAllPosts, type Post } from "@/lib/posts-data"
 
 const RONIN_RED = "#B91C1C"
 
@@ -30,31 +31,17 @@ const itemVariants = {
   },
 }
 
-interface PostMeta {
-  slug: string
-  title: string
-  date: string
-  description: string
-  order: number
-}
-
 export default function RoninIndexPage() {
   const router = useRouter()
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [isIndexExpanded, setIsIndexExpanded] = useState(false)
-  const [posts, setPosts] = useState<PostMeta[]>([])
+  const posts: Post[] = getAllPosts()
 
   useEffect(() => {
     document.documentElement.style.backgroundColor = RONIN_RED
     document.body.style.backgroundColor = RONIN_RED
     document.documentElement.classList.add("ronin-scrollbar")
     document.documentElement.classList.add("ronin-selection")
-
-    // Fetch posts
-    fetch("/api/ronin/posts")
-      .then((res) => res.json())
-      .then((data) => setPosts(data))
-      .catch(() => setPosts([]))
 
     return () => {
       document.documentElement.style.backgroundColor = ""
@@ -105,9 +92,7 @@ export default function RoninIndexPage() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-      >
-        
-      </motion.aside>
+      ></motion.aside>
 
       <main className="min-h-screen flex items-center justify-center px-6" style={{ backgroundColor: RONIN_RED }}>
         <motion.div
@@ -129,8 +114,6 @@ export default function RoninIndexPage() {
             >
               Return
             </motion.span>
-
-            
           </motion.div>
 
           {/* Mobile Index - Expandable */}

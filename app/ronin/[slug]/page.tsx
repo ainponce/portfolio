@@ -1,14 +1,15 @@
-import { getAllSlugs, getPostBySlug, getAllPosts } from "@/lib/mdx"
+import { getAllSlugs, getPostBySlug, getAllPosts } from "@/lib/posts-data"
 import RoninPostClient from "./ronin-post-client"
+import { notFound } from "next/navigation"
 
 export async function generateStaticParams() {
-  const slugs = await getAllSlugs()
+  const slugs = getAllSlugs()
   return slugs.map((slug) => ({ slug }))
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const { slug } = params
-  const post = await getPostBySlug(slug)
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const post = getPostBySlug(slug)
 
   if (!post) {
     return { title: "Post not found" }
@@ -20,18 +21,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
-export default async function RoninPostPage({ params }: { params: { slug: string } }) {
-  const { slug } = params
-  const post = await getPostBySlug(slug)
-  const allPosts = await getAllPosts()
+export default async function RoninPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const post = getPostBySlug(slug)
+  const allPosts = getAllPosts()
 
   if (!post) {
-    // notFound() should ideally be imported and used here if we want to
-    // maintain the same behavior as the original for a missing post.
-    // However, since the client component doesn't handle notFound,
-    // we'll rely on the original behavior for now which might lead to an error.
-    // For a complete refactor, you might want to handle this in the client component.
-    return <div>Post not found</div>
+    notFound()
   }
 
   return <RoninPostClient post={post} allPosts={allPosts} currentSlug={slug} />

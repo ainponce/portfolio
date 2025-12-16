@@ -38,6 +38,7 @@ const indexItems = [
 export default function RoninPage() {
   const router = useRouter()
   const [isTransitioning, setIsTransitioning] = useState(false)
+  const [isIndexExpanded, setIsIndexExpanded] = useState(false)
 
   useEffect(() => {
     document.documentElement.style.backgroundColor = RONIN_RED
@@ -58,6 +59,13 @@ export default function RoninPage() {
     setTimeout(() => {
       router.push("/")
     }, 2000)
+  }
+
+  const handleIndexItemClick = (id: string) => {
+    setIsIndexExpanded(false)
+    setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
+    }, 300)
   }
 
   return (
@@ -88,57 +96,96 @@ export default function RoninPage() {
         )}
       </AnimatePresence>
 
-      <motion.nav
-        className="fixed left-6 md:left-12 top-1/2 -translate-y-1/2 z-40 hidden md:block"
+      <motion.aside
+        className="hidden md:block fixed left-8 lg:left-16 top-1/2 -translate-y-1/2 z-40"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        <motion.ul className="space-y-3" variants={itemVariants}>
-          {indexItems.map((item) => (
-            <motion.li
-              key={item.id}
-              className="text-black text-xs font-normal"
-              whileHover={{ opacity: 0.6 }}
-              transition={{ duration: 0.2 }}
-            >
-              <a href={`#${item.id}`} className={`block ${item.active ? "opacity-100" : "opacity-50"}`}>
-                {item.title}
-              </a>
-            </motion.li>
-          ))}
-        </motion.ul>
-      </motion.nav>
+        <motion.div variants={itemVariants}>
+          <h2 className="text-black text-xs font-normal uppercase tracking-widest mb-4">Index</h2>
+          <ul className="space-y-2">
+            {indexItems.map((item) => (
+              <li key={item.id}>
+                <button
+                  onClick={() => handleIndexItemClick(item.id)}
+                  className={`text-black text-sm font-normal hover:opacity-60 transition-opacity text-left ${
+                    item.active ? "opacity-100" : "opacity-50"
+                  }`}
+                >
+                  {item.title}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </motion.div>
+      </motion.aside>
 
       <main className="min-h-screen flex items-center justify-center px-6" style={{ backgroundColor: RONIN_RED }}>
         <motion.div
-          className="flex flex-col items-start max-w-xl"
+          className="flex flex-col items-center max-w-xl w-full"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          {/* Return - left aligned above title, same height as katana (60px) */}
-          <motion.div variants={itemVariants} className="mb-6 md:mb-8 h-[60px] flex items-center mt-[46px]">
+          <motion.div
+            variants={itemVariants}
+            className="mb-6 md:mb-8 h-[60px] flex items-center justify-between w-full"
+          >
             <motion.span
               onClick={handleReturnClick}
-              className="text-black text-sm font-normal cursor-pointer mx-0"
+              className="text-black text-sm font-normal cursor-pointer"
               whileHover={{ opacity: 0.6 }}
               transition={{ duration: 0.2 }}
             >
               Return
             </motion.span>
+
+            <motion.button
+              onClick={() => setIsIndexExpanded(!isIndexExpanded)}
+              className="md:hidden text-black text-sm font-normal cursor-pointer"
+              whileHover={{ opacity: 0.6 }}
+              transition={{ duration: 0.2 }}
+            >
+              {isIndexExpanded ? "✕" : "Index"}
+            </motion.button>
           </motion.div>
 
-          {/* Title - left aligned like main page */}
+          <AnimatePresence>
+            {isIndexExpanded && (
+              <motion.div
+                className="md:hidden w-full mb-6"
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                variants={containerVariants}
+              >
+                <motion.ul className="space-y-3 text-center">
+                  {indexItems.map((item) => (
+                    <motion.li key={item.id} variants={itemVariants}>
+                      <button
+                        onClick={() => handleIndexItemClick(item.id)}
+                        className={`text-black text-sm font-normal hover:opacity-60 transition-opacity ${
+                          item.active ? "opacity-100" : "opacity-50"
+                        }`}
+                      >
+                        {item.title}
+                      </button>
+                    </motion.li>
+                  ))}
+                </motion.ul>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <motion.h1
             id="the-way-of-the-ronin"
             variants={itemVariants}
-            className="font-serif text-2xl md:text-4xl text-black tracking-tight mb-4 md:mb-6"
+            className="font-serif text-2xl md:text-4xl text-black tracking-tight mb-4 md:mb-6 w-full text-left"
           >
             The Way of The Ronin
           </motion.h1>
 
-          {/* Story content - centered like description on main page */}
           <motion.div
             variants={itemVariants}
             className="text-black text-sm md:text-base leading-relaxed text-center w-full space-y-4"

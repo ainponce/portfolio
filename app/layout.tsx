@@ -12,7 +12,10 @@ const _geistMono = V0_Font_Geist_Mono({ subsets: ['latin'], weight: ["100","200"
 
 const _playfairDisplay = Playfair_Display({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800", "900"] })
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://ainponce.com"
+
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
   title: "Ain Moises Ponce",
   description: "Product Engineer focused on the intention behind the code.",
   generator: "v0.app",
@@ -25,7 +28,7 @@ export const metadata: Metadata = {
     description: "Product Engineer focused on the intention behind the code.",
     images: [
       {
-        url: "/images/opengraph-image.png",
+        url: `${BASE_URL}/images/opengraph-image.png`,
         width: 1200,
         height: 630,
         alt: "Ain Moises Ponce - Product Engineer",
@@ -35,9 +38,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    creator: "@ainponce",
+    site: "@ainponce",
     title: "Ain Moises Ponce",
     description: "Product Engineer focused on the intention behind the code.",
-    images: ["/images/opengraph-image.png"],
+    images: [`${BASE_URL}/images/opengraph-image.png`],
   },
 }
 

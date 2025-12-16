@@ -1,9 +1,10 @@
 "use client"
 
 import { motion, AnimatePresence } from "framer-motion"
-import { useRouter } from "next/navigation"
+import { useRouter, useParams } from "next/navigation"
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import ReactMarkdown from "react-markdown"
 
 const RONIN_RED = "#B91C1C"
 
@@ -30,6 +31,15 @@ const itemVariants = {
   },
 }
 
+interface Post {
+  slug: string
+  title: string
+  date: string
+  description: string
+  order: number
+  content: string
+}
+
 interface PostMeta {
   slug: string
   title: string
@@ -38,11 +48,16 @@ interface PostMeta {
   order: number
 }
 
-export default function RoninIndexPage() {
+export default function RoninPostPage() {
   const router = useRouter()
+  const params = useParams()
+  const slug = params.slug as string
+
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [isIndexExpanded, setIsIndexExpanded] = useState(false)
-  const [posts, setPosts] = useState<PostMeta[]>([])
+  const [post, setPost] = useState<Post | null>(null)
+  const [allPosts, setAllPosts] = useState<PostMeta[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     document.documentElement.style.backgroundColor = RONIN_RED
@@ -50,11 +65,19 @@ export default function RoninIndexPage() {
     document.documentElement.classList.add("ronin-scrollbar")
     document.documentElement.classList.add("ronin-selection")
 
-    // Fetch posts
-    fetch("/api/ronin/posts")
-      .then((res) => res.json())
-      .then((data) => setPosts(data))
-      .catch(() => setPosts([]))
+    // Fetch current post and all posts for index
+    Promise.all([
+      fetch(`/api/ronin/posts/${slug}`).then((res) => res.json()),
+      fetch("/api/ronin/posts").then((res) => res.json()),
+    ])
+      .then(([postData, postsData]) => {
+        setPost(postData)
+        setAllPosts(postsData)
+        setIsLoading(false)
+      })
+      .catch(() => {
+        setIsLoading(false)
+      })
 
     return () => {
       document.documentElement.style.backgroundColor = ""
@@ -62,13 +85,36 @@ export default function RoninIndexPage() {
       document.documentElement.classList.remove("ronin-scrollbar")
       document.documentElement.classList.remove("ronin-selection")
     }
-  }, [])
+  }, [slug])
 
   const handleReturnClick = () => {
     setIsTransitioning(true)
     setTimeout(() => {
-      router.push("/")
-    }, 2000)
+      router.push("/ronin")
+    }, 1000)
+  }
+
+  if (isLoading) {
+    return (
+      <main className="min-h-screen flex items-center justify-center" style={{ backgroundColor: RONIN_RED }}>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-black text-sm">
+          Loading...
+        </motion.div>
+      </main>
+    )
+  }
+
+  if (!post) {
+    return (
+      <main className="min-h-screen flex items-center justify-center" style={{ backgroundColor: RONIN_RED }}>
+        <div className="text-black text-center">
+          <h1 className="text-2xl font-serif mb-4">Post not found</h1>
+          <Link href="/ronin" className="text-sm hover:opacity-60 transition-opacity">
+            Return to index
+          </Link>
+        </div>
+      </main>
+    )
   }
 
   return (
@@ -89,10 +135,11 @@ export default function RoninIndexPage() {
         {isTransitioning && (
           <motion.div
             className="fixed inset-0 z-50 pointer-events-none"
-            initial={{ backgroundColor: "rgba(185, 28, 28, 0)" }}
-            animate={{ backgroundColor: "#ffffff" }}
+            style={{ backgroundColor: RONIN_RED }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{
-              duration: 2,
+              duration: 1,
               ease: [0.4, 0, 0.2, 1],
             }}
           />
@@ -109,7 +156,7 @@ export default function RoninIndexPage() {
         
       </motion.aside>
 
-      <main className="min-h-screen flex items-center justify-center px-6" style={{ backgroundColor: RONIN_RED }}>
+      <main className="min-h-screen flex items-center justify-center px-6 py-12" style={{ backgroundColor: RONIN_RED }}>
         <motion.div
           className="flex flex-col items-center max-w-xl w-full"
           variants={containerVariants}
@@ -144,13 +191,15 @@ export default function RoninIndexPage() {
                 variants={containerVariants}
               >
                 <motion.ul className="space-y-3 text-center">
-                  {posts.map((post) => (
-                    <motion.li key={post.slug} variants={itemVariants}>
+                  {allPosts.map((p) => (
+                    <motion.li key={p.slug} variants={itemVariants}>
                       <Link
-                        href={`/ronin/${post.slug}`}
-                        className="text-black text-sm font-normal hover:opacity-60 transition-opacity"
+                        href={`/ronin/${p.slug}`}
+                        className={`text-black text-sm font-normal hover:opacity-60 transition-opacity ${
+                          p.slug === slug ? "opacity-100" : "opacity-50"
+                        }`}
                       >
-                        {post.title}
+                        {p.title}
                       </Link>
                     </motion.li>
                   ))}
@@ -159,34 +208,28 @@ export default function RoninIndexPage() {
             )}
           </AnimatePresence>
 
-          {/* Main Title */}
+          {/* Post Title */}
           <motion.h1
             variants={itemVariants}
             className="font-serif text-2xl md:text-4xl text-black tracking-tight mb-4 md:mb-6 w-full text-left"
           >
-            Ronin
+            {post.title}
           </motion.h1>
 
-          {/* Description */}
-          <motion.p
+          {/* Post Content */}
+          <motion.div
             variants={itemVariants}
-            className="text-black text-sm md:text-base leading-relaxed text-center w-full"
+            className="text-black text-sm md:text-base leading-relaxed text-center w-full prose prose-sm prose-neutral max-w-none"
           >
-            A collection of personal writings and reflections.
-          </motion.p>
-
-          {/* Posts List */}
-          <motion.div variants={itemVariants} className="w-full mt-8 space-y-4">
-            {posts.map((post) => (
-              <Link
-                key={post.slug}
-                href={`/ronin/${post.slug}`}
-                className="block text-black hover:opacity-60 transition-opacity"
-              >
-                <h2 className="text-lg font-serif">{post.title}</h2>
-                <p className="text-sm opacity-70">{post.description}</p>
-              </Link>
-            ))}
+            <ReactMarkdown
+              components={{
+                p: ({ children }) => <p className="mb-4">{children}</p>,
+                em: ({ children }) => <em className="italic">{children}</em>,
+                strong: ({ children }) => <strong className="font-bold">{children}</strong>,
+              }}
+            >
+              {post.content}
+            </ReactMarkdown>
           </motion.div>
         </motion.div>
       </main>

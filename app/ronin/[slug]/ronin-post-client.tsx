@@ -131,14 +131,7 @@ export default function RoninPostClient({ post, allPosts, currentSlug }: RoninPo
             </motion.span>
 
             {/* Mobile Index Toggle */}
-            <motion.span
-              onClick={() => setIsIndexExpanded(!isIndexExpanded)}
-              className="md:hidden text-black text-sm font-normal cursor-pointer"
-              whileHover={{ opacity: 0.6 }}
-              transition={{ duration: 0.2 }}
-            >
-              {isIndexExpanded ? "✕" : "Index"}
-            </motion.span>
+            
           </motion.div>
 
           {/* Mobile Index - Expandable */}

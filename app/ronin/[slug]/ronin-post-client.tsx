@@ -60,14 +60,12 @@ export default function RoninPostClient({ post, allPosts, currentSlug }: RoninPo
   const [isIndexExpanded, setIsIndexExpanded] = useState(false)
 
   useEffect(() => {
-    document.documentElement.classList.add("ronin-bg")
     document.documentElement.style.backgroundColor = RONIN_RED
     document.body.style.backgroundColor = RONIN_RED
     document.documentElement.classList.add("ronin-scrollbar")
     document.documentElement.classList.add("ronin-selection")
 
     return () => {
-      document.documentElement.classList.remove("ronin-bg")
       document.documentElement.style.backgroundColor = ""
       document.body.style.backgroundColor = ""
       document.documentElement.classList.remove("ronin-scrollbar")
@@ -133,6 +131,7 @@ export default function RoninPostClient({ post, allPosts, currentSlug }: RoninPo
             </motion.span>
 
             {/* Mobile Index Toggle */}
+            
           </motion.div>
 
           {/* Mobile Index - Expandable */}

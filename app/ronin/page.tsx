@@ -38,14 +38,12 @@ export default function RoninIndexPage() {
   const posts: Post[] = getAllPosts()
 
   useEffect(() => {
-    document.documentElement.classList.add("ronin-bg")
     document.documentElement.style.backgroundColor = RONIN_RED
     document.body.style.backgroundColor = RONIN_RED
     document.documentElement.classList.add("ronin-scrollbar")
     document.documentElement.classList.add("ronin-selection")
 
     return () => {
-      document.documentElement.classList.remove("ronin-bg")
       document.documentElement.style.backgroundColor = ""
       document.body.style.backgroundColor = ""
       document.documentElement.classList.remove("ronin-scrollbar")

@@ -162,12 +162,6 @@
     @apply bg-background text-foreground;
   }
 
-  /* Add ronin background class to handle iOS safe areas */
-  html.ronin-bg,
-  html.ronin-bg body {
-    background-color: #b91c1c !important;
-  }
-
   /* Enhanced text selection colors with better mobile support */
   *::selection,
   *::-moz-selection {

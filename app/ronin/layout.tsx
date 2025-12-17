@@ -31,7 +31,6 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: RONIN_RED,
-  viewportFit: "cover",
 }
 
 export default function RoninLayout({
@@ -40,25 +39,7 @@ export default function RoninLayout({
   children: React.ReactNode
 }) {
   return (
-    <div
-      className="min-h-screen"
-      style={{
-        backgroundColor: RONIN_RED,
-        paddingTop: "env(safe-area-inset-top)",
-        paddingBottom: "env(safe-area-inset-bottom)",
-        paddingLeft: "env(safe-area-inset-left)",
-        paddingRight: "env(safe-area-inset-right)",
-      }}
-    >
-      {/* Script to set background color immediately before React hydrates */}
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            document.documentElement.style.backgroundColor = "${RONIN_RED}";
-            document.body.style.backgroundColor = "${RONIN_RED}";
-          `,
-        }}
-      />
+    <div className="min-h-screen" style={{ backgroundColor: RONIN_RED }}>
       {children}
     </div>
   )

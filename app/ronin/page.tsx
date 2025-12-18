@@ -3,7 +3,6 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
-import Link from "next/link"
 import { getAllPosts, type Post } from "@/lib/posts-data"
 
 const RONIN_RED = "#B91C1C"
@@ -34,6 +33,7 @@ const itemVariants = {
 export default function RoninIndexPage() {
   const router = useRouter()
   const [isTransitioning, setIsTransitioning] = useState(false)
+  const [targetUrl, setTargetUrl] = useState<string | null>(null)
   const [isIndexExpanded, setIsIndexExpanded] = useState(false)
   const posts: Post[] = getAllPosts()
 
@@ -53,9 +53,18 @@ export default function RoninIndexPage() {
 
   const handleReturnClick = () => {
     setIsTransitioning(true)
+    setTargetUrl("/")
     setTimeout(() => {
       router.push("/")
     }, 2000)
+  }
+
+  const handlePostClick = (slug: string) => {
+    setIsTransitioning(true)
+    setTargetUrl(`/ronin/${slug}`)
+    setTimeout(() => {
+      router.push(`/ronin/${slug}`)
+    }, 800)
   }
 
   return (
@@ -76,10 +85,13 @@ export default function RoninIndexPage() {
         {isTransitioning && (
           <motion.div
             className="fixed inset-0 z-50 pointer-events-none"
-            initial={{ backgroundColor: "rgba(185, 28, 28, 0)" }}
-            animate={{ backgroundColor: "#ffffff" }}
+            initial={{ backgroundColor: RONIN_RED, opacity: 0 }}
+            animate={{
+              backgroundColor: targetUrl === "/" ? "#ffffff" : RONIN_RED,
+              opacity: 1,
+            }}
             transition={{
-              duration: 2,
+              duration: targetUrl === "/" ? 2 : 0.8,
               ease: [0.4, 0, 0.2, 1],
             }}
           />
@@ -129,12 +141,12 @@ export default function RoninIndexPage() {
                 <motion.ul className="space-y-3 text-center">
                   {posts.map((post) => (
                     <motion.li key={post.slug} variants={itemVariants}>
-                      <Link
-                        href={`/ronin/${post.slug}`}
-                        className="text-black text-sm font-normal hover:opacity-60 transition-opacity"
+                      <span
+                        onClick={() => handlePostClick(post.slug)}
+                        className="text-black text-sm font-normal hover:opacity-60 transition-opacity cursor-pointer"
                       >
                         {post.title}
-                      </Link>
+                      </span>
                     </motion.li>
                   ))}
                 </motion.ul>
@@ -161,14 +173,14 @@ export default function RoninIndexPage() {
           {/* Posts List */}
           <motion.div variants={itemVariants} className="w-full mt-8 space-y-4">
             {posts.map((post) => (
-              <Link
+              <div
                 key={post.slug}
-                href={`/ronin/${post.slug}`}
-                className="block text-black hover:opacity-60 transition-opacity"
+                onClick={() => handlePostClick(post.slug)}
+                className="block text-black hover:opacity-60 transition-opacity cursor-pointer"
               >
                 <h2 className="text-lg font-serif">{post.title}</h2>
                 <p className="text-sm opacity-70">{post.description}</p>
-              </Link>
+              </div>
             ))}
           </motion.div>
         </motion.div>

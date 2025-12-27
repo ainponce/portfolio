@@ -32,6 +32,32 @@ The future looks promising. Big things are coming, and I'll be as ready as I can
 
 – Ain Moises Ponce`,
   },
+  {
+    slug: "2025-ends-the-path-begins",
+    title: "2025 Ends. The Path Begins.",
+    date: "2025-12-26",
+    description: "Let's start together",
+    order: 2,
+    content: `Taking stock of 2025, it really was a wild ride in every sense.
+
+I started the year off well, but personally, a lot of things didn't work out... it was quite sad, honestly, but it really helped me get to know myself better. I quit my stable job where I was settled and well positioned because, as I heard in a podcast, those were just 'golden handcuffs.' I had two months to find something else before I'd have to start going into debt. The first month, I found a role at a company in Entre Rios, but it didn't go well. I didn't connect with the project a decision out of my hands but understandable and we parted ways.
+
+I started BJJ (Brazilian Jiu-Jitsu), which became a fundamental pillar this year and for the rest of my life. It's too hard to explain what I feel every time I step onto the mat: I greet all my teammates, we spend two hours learning and trying to strangle each other, and we finish by shaking hands and thanking each other for the class.
+
+For that job, I bought my first really solid laptop to make sure I was up to the task, so I ended up in more debt and without stable income. I started taking on freelance work, which, luckily, allowed me to survive.
+
+I started going to events, hackathons, and meetups, and I met a lot of cracked people seriously talented (shout out to @gonzamartinese). They really motivated me to improve every day, to stay involved, and to take social media a bit more seriously. I have 50k tweets, so I definitely wouldn't survive someone digging through my past, but oh well, the past is part of who we are.
+
+I found work again in August at a company a really cool place with some people I knew. I lasted five months until there was a staff restructuring and I got caught in the layoffs. Unemployed again.
+
+I'm wrapping up December and this year with a project I'm super hyped to start: @dilicheck_ai, with a great team and a lot of drive to keep creating.
+
+2025 was a great year. It allowed me to get to know myself, improve, learn, and above all, meet many people who are on the same wavelength as me or at least trying to be.
+
+I have a lot of faith in 2026. I'm going to do everything possible to achieve all the goals I've set for myself.
+
+– Ain Moises Ponce`,
+  },
 ]
 
 export function getAllPosts(): Post[] {

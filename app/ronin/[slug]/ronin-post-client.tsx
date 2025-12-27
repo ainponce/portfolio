@@ -8,6 +8,13 @@ import ReactMarkdown from "react-markdown"
 
 const RONIN_RED = "#B91C1C"
 
+function processContent(content: string): string {
+  // Replace @gonzamartinese and @dilicheck_ai with markdown links
+  return content
+    .replace(/@gonzamartinese/g, "[@gonzamartinese](https://x.com/gonzamartinese)")
+    .replace(/@dilicheck_ai/g, "[@dilicheck_ai](https://x.com/dilicheck_ai)")
+}
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -131,7 +138,6 @@ export default function RoninPostClient({ post, allPosts, currentSlug }: RoninPo
             </motion.span>
 
             {/* Mobile Index Toggle */}
-            
           </motion.div>
 
           {/* Mobile Index - Expandable */}
@@ -180,9 +186,19 @@ export default function RoninPostClient({ post, allPosts, currentSlug }: RoninPo
                 p: ({ children }) => <p className="mb-4">{children}</p>,
                 em: ({ children }) => <em className="italic">{children}</em>,
                 strong: ({ children }) => <strong className="font-bold">{children}</strong>,
+                a: ({ href, children }) => (
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:opacity-60 transition-opacity"
+                  >
+                    {children}
+                  </a>
+                ),
               }}
             >
-              {post.content}
+              {processContent(post.content)}
             </ReactMarkdown>
           </motion.div>
         </motion.div>
